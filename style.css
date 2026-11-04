@@ -32,18 +32,18 @@ button, input { font-family: inherit; }
 /* ---------- 1. الشريط العلوي للإعلانات (أبيض ومسنتر في المنتصف) ---------- */
 .topbar {
     position: relative !important;
-    background: #000000 !important;
-    color: #ffffff !important; /* لون النص أبيض ناصع */
+    background: #ffffff !important; /* خلفية بيضاء صريحة لكسر العتمة */
+    color: #111111 !important; /* لون الخط أسود داكن ليظهر بوضوح */
     font-size: 13px !important;
-    font-weight: 500 !important;
+    font-weight: 700 !important;
     letter-spacing: 0.5px !important;
     padding: 8px 0 !important;
-    border-bottom: 1px solid var(--line) !important;
+    border-bottom: 1px solid var(--gold) !important;
     overflow: hidden !important;
     width: 100% !important;
     display: flex !important;
     align-items: center !important;
-    justify-content: center !important; /* سنترة في المنتصف تماماً */
+    justify-content: center !important; /* سنترة في منتصف الشاشة */
     text-align: center !important;
 }
 .ads-track {
@@ -52,7 +52,6 @@ button, input { font-family: inherit; }
     justify-content: center !important;
     width: max-content !important;
     margin: 0 auto !important;
-    animation: ads-rtl 30s linear infinite !important;
 }
 .ads-group { 
     display: flex !important; 
@@ -61,19 +60,15 @@ button, input { font-family: inherit; }
     justify-content: center !important; 
 }
 .ads-item { 
-    padding: 0 18px !important; 
+    padding: 0 16px !important; 
     display: inline-flex !important; 
     align-items: center !important; 
     gap: 8px !important; 
     text-align: center !important; 
-    color: #ffffff !important; /* لون النص أبيض */
+    color: #111111 !important; /* لون النص */
     white-space: nowrap !important;
 }
-.ads-item i { font-size: 11px !important; color: var(--gold) !important; }
-.topbar:hover .ads-track { animation-play-state: paused !important; }
-html[dir="ltr"] .ads-track { animation-name: ads-ltr !important; }
-@keyframes ads-ltr { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-@keyframes ads-rtl { from { transform: translateX(0); } to { transform: translateX(50%); } }
+.ads-item i { font-size: 11px !important; color: var(--gold-dark) !important; }
 
 /* ---------- 2. الهيدر ورابط الملاحة (أزرار متناسقة) ---------- */
 .navbar {
@@ -102,7 +97,7 @@ html[dir="ltr"] .ads-track { animation-name: ads-ltr !important; }
 .nav-links { 
     display: flex !important; 
     align-items: center !important;
-    gap: 16px !important; /* مسافة متناسقة بين روابط الملاحة */
+    gap: 16px !important; /* تقريب المسافات بين أزرار الهيدر */
 }
 .nav-links a {
     position: relative;
@@ -218,7 +213,7 @@ html[dir="ltr"] .ads-track { animation-name: ads-ltr !important; }
 .hero-btns { 
     display: flex !important; 
     align-items: center !important;
-    gap: 10px !important; 
+    gap: 8px !important; 
     flex-wrap: wrap !important; 
 }
 
@@ -285,7 +280,7 @@ html[dir="ltr"] .ads-track { animation-name: ads-ltr !important; }
 .feature h4 { font-size: 15px; font-weight: 700; }
 .feature p { font-size: 13px; color: var(--muted); line-height: 1.4; }
 
-/* ---------- 3. أزرار الفلترة (مسافات مضبوطة ومتقاربة) ---------- */
+/* ---------- 3. أزرار الفلترة (متقاربة وفي المنتصف) ---------- */
 .featured-products { padding: 80px 5%; }
 
 .toolbar {
@@ -301,12 +296,12 @@ html[dir="ltr"] .ads-track { animation-name: ads-ltr !important; }
     display: flex !important; 
     align-items: center !important;
     justify-content: center !important;
-    gap: 8px !important; 
+    gap: 6px !important; /* تقريب أزرار الفلترة من بعضها */
     flex-wrap: wrap !important; 
     margin-bottom: 30px !important;
 }
 .filter-btn {
-    padding: 7px 18px !important;
+    padding: 7px 16px !important;
     background: transparent;
     border: 1px solid var(--line);
     border-radius: 50px;
