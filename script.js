@@ -1,5 +1,5 @@
 /* =========================================================
-   ORGANIC Smile — script.js (المعدل بالكامل لتطبيق تعديلات الواجهة)
+   ORGANIC Smile — script.js (النسخة النهائية المعدلة والمتوافقة مع الأدمن)
    ========================================================= */
 
 const API_URL = "https://organic-smile-public-api.vercel.app/api/products";
@@ -228,7 +228,7 @@ function applyLang() {
     applyWhatsapp();
     renderAds();
     renderCart();
-    applyAdminHeroSettings(); // تطبيق التعديلات المحفوظة من لوحة التحكم فوراً
+    applyAdminHeroSettings(); // تطبيق تعديلات الواجهة وشريط العروض فوراً
     if (rerender) rerender();
 }
 
@@ -238,7 +238,7 @@ function setLang(l) {
     applyLang();
 }
 
-// دالة تطبيق تعديلات الواجهة وشريط العروض المحفوظة من لوحة التحكم (admin_hero_settings)
+// دالة تطبيق إعدادات الأدمن (العنوان، الصور، وشريط العروض) على الصفحة العامة
 function applyAdminHeroSettings() {
     try {
         const heroSettings = JSON.parse(localStorage.getItem("admin_hero_settings") || "{}");
@@ -259,7 +259,15 @@ function applyAdminHeroSettings() {
             }
         }
 
-        // 3. تطبيق شريط العروض المتحرك إن وجد
+        // 3. تحديث صورة بانر العنوان (إن وجدت)
+        if (heroSettings.titleImg) {
+            const titleImgEl = document.querySelector(".hero-title-img, .banner-logo img");
+            if (titleImgEl) {
+                titleImgEl.src = heroSettings.titleImg;
+            }
+        }
+
+        // 4. تطبيق شريط العروض المتحرك المضاف من لوحة التحكم
         const customOffers = JSON.parse(localStorage.getItem("admin_custom_offers") || "[]");
         const announcementBar = document.querySelector(".admin-announcement, .announcement-bar, marquee, .top-bar");
         if (customOffers.length > 0 && announcementBar) {
