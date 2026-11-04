@@ -3,40 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORGANIC Smile | المتجر الرسمي</title>
+    <title>ORGANIC Smile | المتجر الفاخر</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <style>
-        body { background-color: #0b0b0a; color: #f4f1ea; font-family: 'Tajawal', sans-serif; margin: 0; padding: 0; }
-        .navbar { background: #141412; padding: 18px 6%; border-bottom: 1px solid rgba(201,169,97,0.2); display: flex; justify-content: space-between; align-items: center; }
-        .logo a { color: #C9A961; font-weight: 800; font-size: 24px; text-decoration: none; }
-        .nav-links a { color: #f4f1ea; text-decoration: none; margin: 0 15px; font-weight: 500; }
-        .nav-links a.active, .nav-links a:hover { color: #C9A961; }
-        .hero-section { padding: 80px 6%; display: flex; align-items: center; justify-content: space-between; gap: 40px; background: radial-gradient(circle at left center, #1a1915, #0b0b0a); }
-        .hero-content { flex: 1; max-width: 550px; }
-        .hero-content h1 { color: #E5C78B; font-size: 42px; margin-bottom: 18px; font-weight: 800; line-height: 1.3; }
-        .hero-content p { color: #b5b0a3; font-size: 17px; line-height: 1.8; margin-bottom: 30px; }
-        .btn-primary { display: inline-block; padding: 14px 36px; background: linear-gradient(135deg, #d9bb72, #b8924a); color: #000; font-weight: 800; border-radius: 999px; text-decoration: none; }
-        .hero-image { flex: 1; display: flex; justify-content: flex-end; }
-        .hero-image-box { width: 100%; max-width: 480px; height: 320px; background: #141412; border: 1px solid rgba(201,169,97,0.3); border-radius: 20px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .hero-image-box img { width: 100%; height: 100%; object-fit: cover; }
-        .featured-products { padding: 70px 6%; text-align: center; }
-        .section-title { color: #E5C78B; font-size: 34px; margin-bottom: 10px; font-weight: 800; }
-        .section-subtitle { color: #9b9686; margin-bottom: 35px; font-size: 16px; }
-        .filter-buttons { display: flex; justify-content: center; gap: 12px; margin-bottom: 35px; }
-        .filter-btn { padding: 10px 26px; background: #141412; border: 1px solid rgba(201,169,97,0.3); color: #f4f1ea; border-radius: 999px; cursor: pointer; font-family: 'Tajawal', sans-serif; font-weight: bold; }
-        .filter-btn.active, .filter-btn:hover { background: #C9A961; color: #000; }
-        @media (max-width: 900px) { .hero-section { flex-direction: column-reverse; text-align: center; } .hero-image { justify-content: center; } }
-    </style>
 </head>
 <body>
 
+    <!-- الهيدر الفاخر -->
     <header class="navbar">
         <div class="logo">
-            <a href="index.html">ORGANIC Smile</a>
+            <a href="index.html">ORGANIC <span>Smile</span></a>
         </div>
         <nav class="nav-links">
             <a href="index.html" class="active">الرئيسية</a>
@@ -44,39 +23,59 @@
             <a href="#about">قصتنا</a>
             <a href="#contact">تواصل معنا</a>
         </nav>
+        <div class="nav-actions">
+            <a href="cart.html" class="cart-btn">
+                <i class="fa-solid fa-basket-shopping"></i>
+                <span id="cartCount" class="cart-badge">0</span>
+            </a>
+        </div>
     </header>
 
+    <!-- الهيرو سكشن (Hero Section) -->
     <section class="hero-section">
         <div class="hero-content">
+            <span class="hero-tag">🌿 طبيعي 100% بدون إضافات</span>
             <h1 id="heroTitle">فخامة الطبيعة في كل قضمة</h1>
-            <p>مجموعتنا المختارة بعناية من الفواكه المجففة والبودر الطبيعي الصافي 100% بدون أي إضافات صناعية.</p>
-            <a href="#featured-products" class="btn-primary">تسوق الآن</a>
+            <p>تشكيلة فاخرة من الفواكه المجففة والبودر الطبيعي الصافي، جودة تتعدى التوقعات لأسلوب حياة صحي وراقي.</p>
+            <div class="hero-btns">
+                <a href="#featured-products" class="btn-primary">تسوق المجموعة <i class="fa-solid fa-arrow-left"></i></a>
+            </div>
         </div>
         <div class="hero-image">
             <div class="hero-image-box">
-                <img id="heroMainImg" src="images/hero.jpg" alt="ORGANIC Smile" onerror="this.src='https://via.placeholder.com/480x320/141412/C9A961?text=ORGANIC+Smile'">
+                <img id="heroMainImg" src="images/hero.jpg" alt="ORGANIC Smile Products" onerror="this.src='https://via.placeholder.com/480x350/141412/C9A961?text=ORGANIC+Smile+Luxury'">
             </div>
         </div>
     </section>
 
+    <!-- قسم منتجاتنا المميزة -->
     <section class="featured-products" id="featured-products">
-        <h2 class="section-title">منتجاتنا المميزة</h2>
-        <p class="section-subtitle">اكتشف مجموعتنا الفاخرة من الفواكه المجففة والبودر الطبيعي 100%</p>
+        <div class="section-header">
+            <h2 class="section-title">منتجاتنا المميزة</h2>
+            <p class="section-subtitle">اكتشف الطعم الأصلي والفوائد الكاملة المجهزة بعناية</p>
+        </div>
         
         <div class="filter-buttons">
-            <button class="filter-btn active">جميع المنتجات</button>
-            <button class="filter-btn">فواكه مجففة</button>
-            <button class="filter-btn">بودر طبيعي</button>
+            <button class="filter-btn active" data-filter="all">جميع المنتجات</button>
+            <button class="filter-btn" data-filter="dried">فواكه مجففة</button>
+            <button class="filter-btn" data-filter="powder">بودر طبيعي</button>
         </div>
 
+        <!-- شبكة المنتجات (تتولد تلقائياً بالجافاسكربت) -->
         <div id="productsContainer" class="products-grid"></div>
     </section>
 
-    <footer style="text-align:center; padding:30px; border-top:1px solid rgba(201,169,97,0.2); color:#666; font-size:14px;">
-        <p>&copy; 2026 ORGANIC Smile. جميع الحقوق محفوظة.</p>
+    <!-- الفوتر -->
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-logo">ORGANIC <span>Smile</span></div>
+            <p>طبيعي 100% - طعم فاخر وجودة لا تضاهى.</p>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 ORGANIC Smile. جميع الحقوق محفوظة.</p>
+        </div>
     </footer>
 
-    <!-- الاستدعاء الصحيح لملف السكربت -->
     <script src="script.js"></script>
 </body>
 </html>
