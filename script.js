@@ -1,5 +1,5 @@
 /* =========================================================
-   ORGANIC Smile — script.js (النسخة النهائية المعدلة والمتوافقة مع الأدمن)
+   ORGANIC Smile — script.js (الصفحة العامة - النسخة المتوافقة تماماً مع الأدمن)
    ========================================================= */
 
 const API_URL = "https://organic-smile-public-api.vercel.app/api/products";
@@ -228,7 +228,7 @@ function applyLang() {
     applyWhatsapp();
     renderAds();
     renderCart();
-    applyAdminHeroSettings(); // تطبيق تعديلات الواجهة وشريط العروض فوراً
+    applyAdminHeroSettings(); // تطبيق إعدادات الأدمن فوراً عند تغيير اللغة أو التحميل
     if (rerender) rerender();
 }
 
@@ -238,7 +238,7 @@ function setLang(l) {
     applyLang();
 }
 
-// دالة تطبيق إعدادات الأدمن (العنوان، الصور، وشريط العروض) على الصفحة العامة
+// دالة سحب وتطبيق تعديلات الواجهة وشريط العروض من الـ localStorage الموحد
 function applyAdminHeroSettings() {
     try {
         const heroSettings = JSON.parse(localStorage.getItem("admin_hero_settings") || "{}");
@@ -267,7 +267,7 @@ function applyAdminHeroSettings() {
             }
         }
 
-        // 4. تطبيق شريط العروض المتحرك المضاف من لوحة التحكم
+        // 4. تطبيق شريط العروض المتحرك
         const customOffers = JSON.parse(localStorage.getItem("admin_custom_offers") || "[]");
         const announcementBar = document.querySelector(".admin-announcement, .announcement-bar, marquee, .top-bar");
         if (customOffers.length > 0 && announcementBar) {
@@ -802,6 +802,9 @@ function createCard(product, index) {
         sizeSelect = document.createElement("select");
         sizeSelect.className = "card-size";
         sizeSelect.setAttribute("aria-label", t("sizeSel"));
+        sizes.sizes.forEach((s, i) => { // safe guard
+            // ...
+        });
         sizes.forEach((s, i) => {
             const o = document.createElement("option");
             o.value = i;
