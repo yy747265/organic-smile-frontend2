@@ -1,5 +1,5 @@
 /* =========================================================
-   ORGANIC Smile — Dark Luxury Theme (المعدل)
+   ORGANIC Smile — Dark Luxury Theme (المعدل بالكامل)
    ========================================================= */
 :root {
     --bg: #0b0b0a;
@@ -29,38 +29,52 @@ a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
 button, input { font-family: inherit; }
 
-/* ---------- الشريط العلوي للإعلانات (أبيض وفي منتصف الصفحة) ---------- */
+/* ---------- 1. الشريط العلوي للإعلانات (أبيض وفي منتصف الصفحة) ---------- */
 .topbar {
-    background: #000;
-    color: #ffffff; /* لون أبيض ناصع */
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--line);
-    overflow: hidden;
-    white-space: nowrap;
-    min-height: 37px;
-    display: flex;
-    align-items: center;
-    justify-content: center; /* سنترة الشريط في منتصف الصفحة */
-    text-align: center;
+    background: #000000 !important;
+    color: #ffffff !important; /* لون النص أبيض ناصع */
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.5px !important;
+    padding: 8px 0 !important;
+    border-bottom: 1px solid var(--line) !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    min-height: 37px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important; /* سنترة في المنتصف تماماً */
+    text-align: center !important;
+    width: 100% !important;
 }
 .ads-track {
-    display: inline-flex;
-    width: max-content;
-    justify-content: center;
-    animation: ads-rtl 30s linear infinite;
+    display: inline-flex !important;
+    width: max-content !important;
+    justify-content: center !important;
+    align-items: center !important;
+    animation: ads-rtl 30s linear infinite !important;
 }
-.ads-group { display: inline-flex; flex-shrink: 0; align-items: center; justify-content: center; }
-.ads-item { padding: 0 20px; display: inline-flex; align-items: center; gap: 6px; text-align: center; color: #ffffff; }
-.ads-item i { font-size: 11px; color: var(--gold); }
-.topbar:hover .ads-track { animation-play-state: paused; }
-html[dir="ltr"] .ads-track { animation-name: ads-ltr; }
+.ads-group { 
+    display: inline-flex !important; 
+    flex-shrink: 0 !important; 
+    align-items: center !important; 
+    justify-content: center !important; 
+}
+.ads-item { 
+    padding: 0 20px !important; 
+    display: inline-flex !important; 
+    align-items: center !important; 
+    gap: 6px !important; 
+    text-align: center !important; 
+    color: #ffffff !important; /* تأكيد اللون الأبيض */
+}
+.ads-item i { font-size: 11px !important; color: var(--gold) !important; }
+.topbar:hover .ads-track { animation-play-state: paused !important; }
+html[dir="ltr"] .ads-track { animation-name: ads-ltr !important; }
 @keyframes ads-ltr { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @keyframes ads-rtl { from { transform: translateX(0); } to { transform: translateX(50%); } }
 
-/* ---------- الهيدر ---------- */
+/* ---------- 2. الهيدر (الأزرار متقاربة) ---------- */
 .navbar {
     position: sticky;
     top: 0;
@@ -68,7 +82,7 @@ html[dir="ltr"] .ads-track { animation-name: ads-ltr; }
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px; /* تقريب عناصر الهيدر */
+    gap: 10px !important;
     padding: 12px 5%;
     background: rgba(11, 11, 10, 0.88);
     backdrop-filter: blur(12px);
@@ -85,7 +99,7 @@ html[dir="ltr"] .ads-track { animation-name: ads-ltr; }
 }
 .logo span { color: var(--gold); }
 
-.nav-links { display: flex; gap: 16px; } /* تقريب المسافة بين روابط الهيدر */
+.nav-links { display: flex; gap: 12px !important; } /* مسافة قريبة بين روابط الهيدر */
 .nav-links a {
     position: relative;
     font-weight: 500;
@@ -110,7 +124,7 @@ html[dir="ltr"] .ads-track { animation-name: ads-ltr; }
 .nav-cta {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 6px !important;
     padding: 8px 16px;
     border: 1px solid var(--gold);
     border-radius: 50px;
@@ -138,11 +152,11 @@ html[dir="ltr"] .ads-track { animation-name: ads-ltr; }
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 12px 26px;
+    gap: 6px !important;
+    padding: 10px 22px !important;
     border-radius: 50px;
     font-weight: 700;
-    font-size: 15px;
+    font-size: 14.5px;
     cursor: pointer;
     border: 1px solid transparent;
     transition: all 0.3s var(--ease);
@@ -155,7 +169,7 @@ html[dir="ltr"] .ads-track { animation-name: ads-ltr; }
 .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 14px 34px rgba(201, 169, 97, 0.35); }
 .btn-outline { border-color: var(--gold); color: var(--gold); background: transparent; }
 .btn-outline:hover { background: var(--gold); color: #000; transform: translateY(-3px); }
-.btn-lg { padding: 16px 36px; font-size: 17px; }
+.btn-lg { padding: 14px 32px !important; font-size: 16.5px; }
 .btn-block { width: 100%; }
 
 /* ---------- الهيرو ---------- */
@@ -197,7 +211,7 @@ html[dir="ltr"] .ads-track { animation-name: ads-ltr; }
     color: transparent;
 }
 .hero p { max-width: 520px; color: #c9c5b8; font-size: 18px; margin-bottom: 34px; }
-.hero-btns { display: flex; gap: 8px; flex-wrap: wrap; } /* تقريب الأزرار من بعضها */
+.hero-btns { display: flex; gap: 6px !important; flex-wrap: wrap; } /* أزرار الهيرو متقاربة */
 
 .hero-visual {
     position: relative;
@@ -262,28 +276,7 @@ html[dir="ltr"] .ads-track { animation-name: ads-ltr; }
 .feature h4 { font-size: 15px; font-weight: 700; }
 .feature p { font-size: 13px; color: var(--muted); line-height: 1.4; }
 
-/* ---------- عناوين الأقسام ---------- */
-.section-header { text-align: center; margin-bottom: 35px; }
-.eyebrow {
-    display: inline-block;
-    color: var(--gold);
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 3px;
-    margin-bottom: 10px;
-}
-.section-title { font-size: clamp(28px, 4vw, 42px); font-weight: 800; margin-bottom: 12px; }
-.section-title::after {
-    content: '';
-    display: block;
-    width: 60px;
-    height: 2px;
-    margin: 14px auto 0;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-}
-.section-subtitle { color: var(--muted); font-size: 17px; max-width: 560px; margin: 0 auto; }
-
-/* ---------- المنتجات وأزرار الفلترة ---------- */
+/* ---------- 3. أزرار الفلترة (متقاربة جداً من بعضها) ---------- */
 .featured-products { padding: 80px 5%; }
 
 .toolbar {
@@ -296,19 +289,21 @@ html[dir="ltr"] .ads-track { animation-name: ads-ltr; }
     flex-wrap: wrap;
 }
 .filter-buttons { 
-    display: flex; 
-    gap: 6px; /* 👈 تقريب أزرار الفلترة من بعض جداً */
-    flex-wrap: wrap; 
+    display: flex !important; 
+    gap: 4px !important; /* 👈 تقريب الأزرار جداً */
+    flex-wrap: wrap !important; 
+    justify-content: center !important;
 }
 .filter-btn {
-    padding: 7px 18px; /* تقليل حجم الزر ليكون متناسق مع التقريب */
+    padding: 6px 14px !important; /* حجم صغير ومناسب لتقريب المسافة */
     background: transparent;
     border: 1px solid var(--line);
     border-radius: 50px;
     color: #d8d4c8;
     font-weight: 700;
-    font-size: 13px;
+    font-size: 13px !important;
     cursor: pointer;
+    margin: 2px !important;
     transition: all 0.3s var(--ease);
 }
 .filter-btn:hover { border-color: var(--gold); color: var(--gold); }
@@ -451,9 +446,9 @@ html[dir="ltr"] .ads-track { animation-name: ads-ltr; }
 }
 .about-inner { max-width: 760px; margin: 0 auto; }
 .about-inner p { color: #c9c5b8; font-size: 18px; line-height: 2; margin: 10px 0 28px; }
-.about-points { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.about-points { display: flex; justify-content: center; gap: 8px !important; flex-wrap: wrap; }
 .about-points span {
-    padding: 7px 16px;
+    padding: 6px 14px !important;
     border: 1px solid var(--line);
     border-radius: 50px;
     color: var(--gold-light);
@@ -529,9 +524,9 @@ html[dir="ltr"] .ads-track { animation-name: ads-ltr; }
 .detail-price { font-size: 30px; font-weight: 800; color: var(--gold-light); margin-bottom: 14px; }
 .detail-desc { color: #c9c5b8; line-height: 1.9; margin-bottom: 22px; }
 .sizes-label { color: var(--gold); font-weight: 700; margin-bottom: 10px; }
-.size-options { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 25px; }
+.size-options { display: flex; flex-wrap: wrap; gap: 5px !important; margin-bottom: 25px; }
 .size-btn {
-    padding: 8px 16px;
+    padding: 7px 14px !important;
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 10px;
@@ -634,7 +629,7 @@ html[dir="ltr"] .fa-arrow-left, html[dir="ltr"] .fa-arrow-right { transform: sca
     background: var(--surface-2); color: var(--text); border: 1px solid var(--line);
     font-size: 13px; font-family: inherit;
 }
-.detail-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.detail-actions { display: flex; gap: 6px !important; flex-wrap: wrap; margin-top: 8px; }
 .detail-actions .btn { flex: 1 1 180px; }
 
 .cart-btn {
