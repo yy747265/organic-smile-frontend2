@@ -229,14 +229,13 @@ applyLang();
 }
 
 // دالة سحب وتطبيق تعديلات الواجهة وشريط العروض من الـ API
+// دالة سحب وتطبيق تعديلات الواجهة وشريط العروض من الـ API
 async function applyAdminHeroSettings() {
     try {
-        // 1. جلب الإعدادات من الـ API
         const res = await fetch("https://organic-smile-public-api.vercel.app/api/settings");
         if (!res.ok) return;
         const heroSettings = await res.json();
         
-        // 2. تحديث العنوان الرئيسي
         if (heroSettings.hero_title) {
             const titleEl = document.querySelector(".hero h1");
             if (titleEl) {
@@ -246,6 +245,46 @@ async function applyAdminHeroSettings() {
                 titleEl.innerHTML = title;
             }
         }
+        
+        if (heroSettings.hero_main_img) {
+            const imgEl = document.querySelector(".hero-visual img, .main-banner img, .hero-image img");
+            if (imgEl) imgEl.src = heroSettings.hero_main_img;
+        }
+        
+        if (heroSettings.hero_title_img) {
+            const titleImgEl = document.querySelector(".hero-title-img, .banner-logo img");
+            if (titleImgEl) titleImgEl.src = heroSettings.hero_title_img;
+        }
+        
+        const customOffers = LANG === "en" && heroSettings.custom_offers_en 
+            ? heroSettings.custom_offers_en 
+            : (heroSettings.custom_offers || []);
+        
+        if (customOffers.length > 0) {
+            const bar = document.getElementById("adsBar");
+            if (bar) {
+                bar.innerHTML = "";
+                const track = document.createElement("div");
+                track.className = "ads-track";
+                const group = document.createElement("div");
+                group.className = "ads-group";
+                customOffers.forEach((text) => {
+                    const item = document.createElement("span");
+                    item.className = "ads-item";
+                    const icon = document.createElement("i");
+                    icon.className = "fa-solid fa-bullhorn";
+                    item.appendChild(icon);
+                    item.appendChild(document.createTextNode(" " + text));
+                    group.appendChild(item);
+                });
+                track.appendChild(group);
+                bar.appendChild(track);
+            }
+        }
+    } catch (e) {
+        console.error("Error applying admin hero settings:", e);
+    }
+}
         
         // 3. تحديث الصورة الرئيسية بجانب العنوان
         if (heroSettings.hero_main_img) {
