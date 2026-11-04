@@ -330,9 +330,30 @@ async function fetchProducts() {
 function setupMenu() {
     const toggle = document.getElementById("menuToggle");
     const links = document.getElementById("navLinks");
-    if (toggle && links) {
-        toggle.addEventListener("click", () => links.classList.toggle("open"));
-        links.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => links.classList.remove("open")));
+       if (toggle && links) {
+        const overlay = document.createElement("div");
+        overlay.className = "nav-overlay";
+        document.body.appendChild(overlay);
+
+        const closeBtn = document.createElement("button");
+        closeBtn.type = "button";
+        closeBtn.className = "nav-close";
+        closeBtn.setAttribute("aria-label", "close");
+        closeBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+        links.insertBefore(closeBtn, links.firstChild);
+
+        const setOpen = (open) => {
+            links.classList.toggle("open", open);
+            overlay.classList.toggle("open", open);
+            document.body.classList.toggle("menu-open", open);
+        };
+        toggle.addEventListener("click", () => setOpen(!links.classList.contains("open")));
+        closeBtn.addEventListener("click", () => setOpen(false));
+        overlay.addEventListener("click", () => setOpen(false));
+        document.addEventListener("keydown", (e) => { if (e.key === "Escape") setOpen(false); });
+        links.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setOpen(false)));
+        window.addEventListener("resize", () => { if (window.innerWidth > 768) setOpen(false); });
+    }
     }
     
     document.querySelectorAll(".lang-toggle, #langToggle").forEach(btn => {
