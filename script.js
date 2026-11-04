@@ -351,23 +351,31 @@ function renderAds() {
     if (!bar) return;
     const ads = t("ads");
     if (!Array.isArray(ads) || !ads.length) return;
+    
     bar.innerHTML = "";
     const track = document.createElement("div");
     track.className = "ads-track";
+    
     for (let copy = 0; copy < 2; copy++) {
         const group = document.createElement("div");
         group.className = "ads-group";
         if (copy === 1) group.setAttribute("aria-hidden", "true");
+        
         ads.forEach((text) => {
             const item = document.createElement("span");
             item.className = "ads-item";
+            
             const icon = document.createElement("i");
             icon.className = "fa-solid fa-leaf";
-            item.append(icon, document.createTextNode(" " + text));
+            
+            item.appendChild(icon);
+            item.appendChild(document.createTextNode(" " + text));
             group.appendChild(item);
         });
+        
         track.appendChild(group);
     }
+    
     bar.appendChild(track);
 }
 
