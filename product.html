@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" style="scroll-behavior: smooth;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المنتج | ORGANIC Smile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="navbar" id="navbar">
+        <div class="logo">
+            <a href="index.html">
+                <img src="images/logo.jpg" alt="ORGANIC Smile Logo" width="150" height="50">
+            </a>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html">الرئيسية</a>
+        </nav>
+    </header>
+
+    <main class="pp-main" id="ppRoot" style="min-height: 70vh; max-width: 1100px; margin: 0 auto; padding: 110px 5% 70px;"></main>
+
+    <footer style="text-align: center; padding: 26px 5%; color: #9b9686; border-top: 1px solid rgba(201,169,97,.18);">
+        &copy; 2026 ORGANIC Smile
+    </footer>
+
+    <!-- Link to your external script -->
+    <script src="script.js"></script>
+    <script>
+        const PUBLIC_API_URL = "http://127.0.0.1:8000/admin/products";
+
+        async function loadSingleProduct() {
+            var root = document.getElementById("ppRoot");
+            var urlName = new URLSearchParams(location.search).get("name");
+
+            try {
+                var res = await fetch(PUBLIC_API_URL);
+                var products = await res.json();
+                var p = products.find(x => x.name === urlName);
+
+                if (!p) {
+                    root.innerHTML = '<h2 style="color: #fff; text-align: center;">المنتج غير موجود</h2>';
+                    return;
+                }
+
+                // Format price
+                let price = "0";
+                if (p.sizes && p.sizes[0]) {
+                    const priceMatch = p.sizes[0].match(/-\s*(\d+)/);
+                    if (priceMatch) price = priceMatch[1];
+                }
+                const img = (p.images && p.images.length > 0) ? p.images[0] : "images/placeholder.jpg";
+
+                root.innerHTML = `
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start;">
+                        <div>
+                            <img src="${img}" alt="${p.name}" style="width: 100%; border-radius: 12px; border: 1px solid #C9A961;">
+                        </div>
+                        <div style="color: #fff;">
+                            <h1 style="color: #E5C78B; font-size: 34px;">${p.name}</h1>
+                            <h2 style="color: #C9A961; margin: 20px 0;">السعر: ${price} ج.م</h2>
+                            <p style="color: #b9b4a4; font-size: 18px;">فواكه مجففة طبيعية 100% مختارة بعناية.</p>
+                            <button style="margin-top: 20px; width: 100%; padding: 15px; background: #C9A961; color: #000; border: none; border-radius: 999px; font-size: 18px; font-weight: bold; cursor: pointer;">
+                                اطلب الآن عبر واتساب
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } catch (err) {
+                console.error("Error:", err);
+                root.innerHTML = '<h2 style="color: red; text-align: center;">خطأ في الاتصال بالخادم</h2>';
+            }
+        }
+        document.addEventListener("DOMContentLoaded", loadSingleProduct);
+    </script>
+</body>
+</html>
