@@ -3,75 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="pTitle">تفاصيل المنتج | ORGANIC Smile</title>
-    <meta name="theme-color" content="#0b0b0a">
-    <link rel="icon" href="images/logo.jpg">
-
+    <title>تفاصيل المنتج | ORGANIC Smile</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <style>
+        body { background-color: #0b0b0a; color: #f4f1ea; font-family: 'Tajawal', sans-serif; margin: 0; padding: 0; }
+        .product-detail-container { max-width: 900px; margin: 40px auto; padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .product-img-box img { width: 100%; height: 350px; object-fit: cover; border-radius: 16px; border: 1px solid rgba(201,169,97,0.3); }
+        .product-info-box h1 { color: #C9A961; margin-top: 0; }
+        .price-tag { font-size: 24px; font-weight: bold; color: #E5C78B; margin: 15px 0; }
+        .sizes-box { margin: 20px 0; }
+        .size-btn { padding: 8px 16px; margin: 4px; border: 1px solid #C9A961; background: #151513; color: #fff; border-radius: 8px; cursor: pointer; }
+        .size-btn.active { background: #C9A961; color: #000; font-weight: bold; }
+        .back-btn { display: inline-block; margin-bottom: 20px; color: #C9A961; text-decoration: none; font-weight: bold; }
+        @media (max-width: 768px) { .product-detail-container { grid-template-columns: 1fr; } }
+    </style>
 </head>
 <body>
 
-    <header class="navbar">
-        <button class="menu-toggle" id="menuToggle" data-i18n-aria="menu" aria-label="القائمة">
-            <i class="fa-solid fa-bars"></i>
-        </button>
-
-        <a href="index.html" class="logo">ORGANIC <span>Smile</span></a>
-
-        <nav class="nav-links" id="navLinks">
-            <a href="index.html" data-i18n="navHome">الرئيسية</a>
-            <a href="index.html#featured-products" class="active" data-i18n="navShop">المتجر</a>
-            <a href="index.html#about" data-i18n="navAbout">قصتنا</a>
-            <a href="index.html#contact" data-i18n="navContact">تواصل معنا</a>
-        </nav>
-
-        <button type="button" class="lang-toggle" id="langToggle">EN</button>
-
-        <a href="index.html#contact" class="nav-cta">
-            <i class="fa-brands fa-whatsapp"></i>
-            <span data-i18n="orderNow">اطلب الآن</span>
-        </a>
+    <header class="navbar" style="padding: 15px 5%; border-bottom: 1px solid rgba(201,169,97,0.2);">
+        <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-right"></i> العودة للمتجر</a>
     </header>
 
-    <main class="product-page">
-        <a href="index.html#featured-products" class="back-link">
-            <i class="fa-solid fa-arrow-right"></i> <span data-i18n="backShop">العودة للمتجر</span></a>
-
-        <div class="product-detail">
-            <div class="detail-gallery">
-                <div class="detail-img-wrap">
-                    <img id="detailImg" src="" alt="صورة المنتج">
-                </div>
-                <div class="detail-thumbs" id="detailThumbs"></div>
-            </div>
-
-            <div class="detail-info">
-                <span class="product-cat" id="detailCat"></span>
-                <h1 id="detailTitle"></h1>
-                <div class="detail-price" id="detailPrice"></div>
-                <p class="detail-desc" id="detailDesc"></p>
-
-                <div id="sizesBlock" style="display:none;">
-                    <div class="sizes-label" data-i18n="sizesLabel">الأحجام المتاحة</div>
-                    <div class="size-options" id="detailSizes"></div>
-                </div>
-
-                <a id="orderBtn" class="btn btn-gold btn-block" style="display:none;" target="_blank" rel="noopener">
-                    <i class="fa-brands fa-whatsapp"></i> <span data-i18n="orderWA">اطلب عبر واتساب</span></a>
+    <div class="product-detail-container">
+        <div class="product-img-box">
+            <img id="detailImg" src="https://via.placeholder.com/400x350?text=ORGANIC+Smile" alt="صورة المنتج">
+        </div>
+        <div class="product-info-box">
+            <h1 id="detailTitle">جاري تحميل المنتج...</h1>
+            <div id="detailCat" style="color: #9b9686; font-size: 14px;"></div>
+            <div class="price-tag" id="detailPrice">-- ج.م</div>
+            <p id="detailDesc" style="line-height: 1.8; color: #ccc;">منتج طبيعي فاخر 100% بدون أي إضافات صناعية.</p>
+            
+            <div class="sizes-box">
+                <label style="display:block; margin-bottom:10px; font-weight:bold; color:#C9A961;">الأحجام المتاحة:</label>
+                <div id="detailSizes"></div>
             </div>
         </div>
-    </main>
+    </div>
 
-    <footer class="main-footer">
-        <div class="footer-logo">ORGANIC <span>Smile</span></div>
-        <p data-i18n="footerP">طبيعي 100% · طعم فاخر وجودة لا تضاهى</p>
-        <div class="footer-bottom" data-i18n="footerBottom">© 2026 ORGANIC Smile. جميع الحقوق محفوظة.</div>
-    </footer>
+    <script>
+    const PUBLIC_API_URL = "https://organic-smile-public-api.vercel.app/api/products";
 
-    <script src="script.js"></script>
-    </body>
+    document.addEventListener("DOMContentLoaded", async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productName = urlParams.get("name");
+
+        if (!productName) {
+            document.getElementById("detailTitle").textContent = "لم يتم تحديد منتج";
+            return;
+        }
+
+        try {
+            const response = await fetch(PUBLIC_API_URL);
+            const products = await response.json();
+
+            const product = products.find(p => p.name === decodeURIComponent(productName));
+
+            if (product) {
+                document.getElementById("detailTitle").textContent = product.name;
+                document.getElementById("detailCat").textContent = (product.category === 'dried' || product.category === 'فواكه مجففة') ? 'فواكه مجففة' : 'بودر طبيعي';
+                
+                if (product.description) {
+                    document.getElementById("detailDesc").textContent = product.description;
+                }
+
+                if (product.images && product.images[0]) {
+                    document.getElementById("detailImg").src = product.images[0];
+                }
+
+                const sizesContainer = document.getElementById("detailSizes");
+                const priceTag = document.getElementById("detailPrice");
+                sizesContainer.innerHTML = "";
+
+                if (Array.isArray(product.sizes) && product.sizes.length > 0) {
+                    product.sizes.forEach((item, idx) => {
+                        let sName = typeof item === 'object' ? item.size : item;
+                        let sPrice = typeof item === 'object' ? item.price : "";
+
+                        if (idx === 0 && sPrice) {
+                            priceTag.textContent = sPrice + " ج.م";
+                        }
+
+                        const btn = document.createElement("button");
+                        btn.className = idx === 0 ? "size-btn active" : "size-btn";
+                        btn.textContent = `${sName} ${sPrice ? ' - ' + sPrice + ' ج.م' : ''}`;
+                        
+                        btn.onclick = () => {
+                            document.querySelectorAll(".size-btn").forEach(b => b.classList.remove("active"));
+                            btn.classList.add("active");
+                            if (sPrice) priceTag.textContent = sPrice + " ج.م";
+                        };
+
+                        sizesContainer.appendChild(btn);
+                    });
+                }
+            } else {
+                document.getElementById("detailTitle").textContent = "المنتج غير موجود";
+            }
+        } catch (err) {
+            console.error(err);
+            document.getElementById("detailTitle").textContent = "خطأ في تحميل بيانات المنتج";
+        }
+    });
+    </script>
+</body>
 </html>
