@@ -31,9 +31,9 @@ async function fetchProducts() {
 }
 
 function renderProducts(productsToRender, container) {
-    // إجبار الكروت تظهر جنب بعض في شبكة متناسقة responsive
+    // جعل المنتجات تظهر جنب بعض في شبكة (Grid)
     container.style.display = "grid";
-    container.style.gridTemplateColumns = "repeat(auto-fill, minmax(250px, 1fr))";
+    container.style.gridTemplateColumns = "repeat(auto-fill, minmax(240px, 1fr))";
     container.style.gap = "20px";
     container.style.marginTop = "30px";
     container.style.width = "100%";
@@ -50,13 +50,11 @@ function renderProducts(productsToRender, container) {
         card.className = "product-card";
         card.style.cssText = "background: #151513; border: 1px solid rgba(201,169,97,0.22); border-radius: 16px; padding: 16px; text-align: center; color: #fff; display: flex; flex-direction: column; justify-content: space-between;";
 
-        // معالجة الصور
         let imgSrc = "https://via.placeholder.com/300x200?text=ORGANIC+Smile";
         if (product.images && product.images.length > 0 && product.images[0]) {
             imgSrc = product.images[0];
         }
 
-        // معالجة السعر
         let priceDisplay = "0 ج.م";
         if (Array.isArray(product.sizes) && product.sizes.length > 0) {
             const firstSize = product.sizes[0];
