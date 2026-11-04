@@ -173,11 +173,11 @@ const I18N = {
   "langBtn": "عربي",
   "heroH1": "Luxury of Nature <em>in Every Bite</em>",
   "ads": [
-   "100% Natural · No Artificial Additives",
-   "Carefully Selected Quality",
-   "Add your products to the cart and order them all at once via WhatsApp",
-   "Multiple sizes to fit your needs",
-   "Message us on WhatsApp and we'll help you choose"
+   "طبيعي 100% · بدون إضافات صناعية",
+   "جودة مختارة بعناية",
+   "أضف منتجاتك للسلة واطلبها كلها مرة واحدة عبر واتساب",
+   "أحجام متعددة تناسب احتياجك",
+   "تواصل معنا على واتساب وهنساعدك تختار"
   ],
   "cart": "Cart",
   "cartTitle": "Shopping Cart",
@@ -298,7 +298,7 @@ function sizeLabel(s) {
     if (LANG === "ar") return s.size || s.size_en;
     if (s.size_en) return s.size_en;
     return s.size
-        .replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d))
+        .replace(/[٠-٩]/g, (d) => "٠١٢٣٥٦٧٨٩".indexOf(d))
         .replace(/كجم|كيلو/g, "kg")
         .replace(/جرام|جم/g, "g");
 }
@@ -356,26 +356,22 @@ function renderAds() {
     const track = document.createElement("div");
     track.className = "ads-track";
     
-    for (let copy = 0; copy < 2; copy++) {
-        const group = document.createElement("div");
-        group.className = "ads-group";
-        if (copy === 1) group.setAttribute("aria-hidden", "true");
-        
-        ads.forEach((text) => {
-            const item = document.createElement("span");
-            item.className = "ads-item";
-            
-            const icon = document.createElement("i");
-            icon.className = "fa-solid fa-leaf";
-            
-            item.appendChild(icon);
-            item.appendChild(document.createTextNode(" " + text));
-            group.appendChild(item);
-        });
-        
-        track.appendChild(group);
-    }
+    const group = document.createElement("div");
+    group.className = "ads-group";
     
+    ads.forEach((text) => {
+        const item = document.createElement("span");
+        item.className = "ads-item";
+        
+        const icon = document.createElement("i");
+        icon.className = "fa-solid fa-leaf";
+        
+        item.appendChild(icon);
+        item.appendChild(document.createTextNode(" " + text));
+        group.appendChild(item);
+    });
+    
+    track.appendChild(group);
     bar.appendChild(track);
 }
 
