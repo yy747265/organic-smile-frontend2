@@ -1,80 +1,101 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORGANIC Smile | المتجر الرسمي</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-    <style>
-        body { background-color: #0c0c0b; color: #f4f1ea; font-family: 'Tajawal', sans-serif; margin: 0; padding: 0; }
-        .navbar { background: #141412; padding: 15px 5%; border-bottom: 1px solid rgba(201,169,97,0.2); display: flex; justify-content: space-between; align-items: center; }
-        .nav-links a { color: #f4f1ea; text-decoration: none; margin: 0 15px; font-weight: 500; }
-        .nav-links a.active, .nav-links a:hover { color: #C9A961; }
-        .hero-section { padding: 60px 5%; display: flex; align-items: center; justify-content: space-between; gap: 40px; background: radial-gradient(circle at top right, #1a1915, #0c0c0b); }
-        .hero-content { max-width: 500px; }
-        .hero-content h1 { color: #C9A961; font-size: 38px; margin-bottom: 15px; font-weight: 800; line-height: 1.3; }
-        .hero-content p { color: #cccccc; font-size: 16px; line-height: 1.8; margin-bottom: 25px; }
-        .btn-primary { display: inline-block; padding: 12px 30px; background: linear-gradient(135deg, #d9bb72, #b8924a); color: #000; font-weight: 800; border-radius: 999px; text-decoration: none; }
-        .hero-image img { width: 100%; max-width: 450px; border-radius: 20px; border: 1px solid rgba(201,169,97,0.3); }
-        .featured-products { padding: 60px 5%; text-align: center; }
-        .section-title { color: #C9A961; font-size: 32px; margin-bottom: 10px; }
-        .section-subtitle { color: #9b9686; margin-bottom: 30px; }
-        .filter-buttons { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; }
-        .filter-btn { padding: 10px 24px; background: #181816; border: 1px solid rgba(201,169,97,0.3); color: #f4f1ea; border-radius: 999px; cursor: pointer; font-family: 'Tajawal', sans-serif; font-weight: bold; }
-        .filter-btn.active, .filter-btn:hover { background: #C9A961; color: #000; }
-        @media (max-width: 768px) { .hero-section { flex-direction: column; text-align: center; } }
-    </style>
-</head>
-<body>
+const PUBLIC_API_URL = "https://organic-smile-public-api.vercel.app/api/products";
+let allProducts = [];
 
-    <!-- الشريط العلوي -->
-    <header class="navbar">
-        <div class="logo">
-            <a href="index.html" style="color:#C9A961; font-weight:800; font-size:22px; text-decoration:none;">ORGANIC Smile</a>
-        </div>
-        <nav class="nav-links">
-            <a href="index.html" class="active">الرئيسية</a>
-            <a href="#featured-products">المتجر</a>
-            <a href="#about">قصتنا</a>
-            <a href="#contact">تواصل معنا</a>
-        </nav>
-    </header>
+document.addEventListener("DOMContentLoaded", () => {
+    fetchProducts();
+});
 
-    <!-- الواجهة الرئيسية -->
-    <section class="hero-section">
-        <div class="hero-content">
-            <h1 id="heroTitle">فخامة الطبيعة في كل قضمة</h1>
-            <p>مجموعتنا المختارة بعناية من الفواكه المجففة والبودر الطبيعي الصافي 100% بدون أي إضافات صناعية.</p>
-            <a href="#featured-products" class="btn-primary">تسوق الآن</a>
-        </div>
-        <div class="hero-image">
-            <img id="heroMainImg" src="images/hero.jpg" alt="ORGANIC Smile Products" onerror="this.src='https://via.placeholder.com/450x350/151513/C9A961?text=ORGANIC+Smile'">
-        </div>
-    </section>
+async function fetchProducts() {
+    const container = document.getElementById("productsContainer");
+    if (!container) return;
 
-    <!-- قسم منتجاتنا المميزة -->
-    <section class="featured-products" id="featured-products">
-        <h2 class="section-title">منتجاتنا المميزة</h2>
-        <p class="section-subtitle">اكتشف مجموعتنا الفاخرة من الفواكه المجففة والبودر الطبيعي 100%</p>
-        
-        <div class="filter-buttons">
-            <button class="filter-btn active">جميع المنتجات</button>
-            <button class="filter-btn">فواكه مجففة</button>
-            <button class="filter-btn">بودر طبيعي</button>
-        </div>
+    try {
+        const response = await fetch(PUBLIC_API_URL);
+        allProducts = await response.json();
 
-        <!-- شبكة المنتجات المربوطة بالجافاسكربت -->
-        <div id="productsContainer" class="products-grid"></div>
-    </section>
+        if (!Array.isArray(allProducts) || allProducts.length === 0) {
+            container.innerHTML = "<p style='text-align:center; color:#9b9686; width:100%; padding:40px;'>لا توجد منتجات متاحة حالياً.</p>";
+            return;
+        }
 
-    <footer style="text-align:center; padding:30px; border-top:1px solid rgba(201,169,97,0.2); color:#777; font-size:14px;">
-        <p>&copy; 2026 ORGANIC Smile. جميع الحقوق محفوظة.</p>
-    </footer>
+        renderProducts(allProducts, container);
+        setupFilters(container);
 
-    <script src="script.js"></script>
-</body>
-</html>
+    } catch (error) {
+        console.error("Error loading products:", error);
+        container.innerHTML = "<p style='text-align:center; color:#ff6b6f; width:100%; padding:30px;'>تعذر تحميل المنتجات أونلاين.</p>";
+    }
+}
+
+function renderProducts(productsToRender, container) {
+    container.style.display = "grid";
+    container.style.gridTemplateColumns = "repeat(auto-fill, minmax(240px, 1fr))";
+    container.style.gap = "25px";
+    container.style.marginTop = "30px";
+    container.style.width = "100%";
+
+    container.innerHTML = "";
+
+    if (productsToRender.length === 0) {
+        container.innerHTML = "<p style='text-align:center; color:#9b9686; grid-column: 1/-1; padding:30px;'>لا توجد منتجات في هذا القسم.</p>";
+        return;
+    }
+
+    productsToRender.forEach(product => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.style.cssText = "background: #141412; border: 1px solid rgba(201,169,97,0.25); border-radius: 16px; padding: 16px; text-align: center; color: #fff; display: flex; flex-direction: column; justify-content: space-between;";
+
+        let imgSrc = "https://via.placeholder.com/300x200/151513/C9A961?text=ORGANIC+Smile";
+        if (product.images && product.images.length > 0 && product.images[0]) {
+            imgSrc = product.images[0];
+        }
+
+        let priceDisplay = "0 ج.م";
+        if (Array.isArray(product.sizes) && product.sizes.length > 0) {
+            const firstSize = product.sizes[0];
+            if (typeof firstSize === 'object' && firstSize !== null) {
+                priceDisplay = `${firstSize.price || ''} ج.م`;
+            } else {
+                priceDisplay = firstSize;
+            }
+        } else if (product.price) {
+            priceDisplay = `${product.price} ج.م`;
+        }
+
+        let catTitle = (product.category === 'dried' || product.category === 'فواكه مجففة') ? 'فواكه مجففة' : 'بودر طبيعي';
+
+        card.innerHTML = `
+            <div>
+                <div style="width:100%; height:180px; overflow:hidden; border-radius:12px; margin-bottom:12px;">
+                    <img src="${imgSrc}" alt="${product.name}" style="width:100%; height:100%; object-fit:cover;" onerror="this.src='https://via.placeholder.com/300x200/151513/C9A961?text=ORGANIC+Smile'">
+                </div>
+                <span style="color:#C9A961; font-size:12px; font-weight:bold;">${catTitle}</span>
+                <h3 style="margin:8px 0; font-size:18px; color:#f4f1ea;">${product.name}</h3>
+                <div style="color:#E5C78B; font-weight:bold; font-size:16px; margin-bottom:14px;">${priceDisplay}</div>
+            </div>
+            <a href="product.html?name=${encodeURIComponent(product.name)}" style="display:inline-block; width:100%; padding:10px 0; background:linear-gradient(135deg, #d9bb72, #b8924a); color:#000; border-radius:999px; text-decoration:none; font-weight:800; margin-top:auto;">عرض التفاصيل</a>
+        `;
+
+        container.appendChild(card);
+    });
+}
+
+function setupFilters(container) {
+    const btns = document.querySelectorAll(".filter-btn");
+    btns.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            const txt = e.currentTarget.textContent.trim();
+            btns.forEach(b => b.classList.remove("active"));
+            e.currentTarget.classList.add("active");
+            
+            if (txt.includes("جميع")) {
+                renderProducts(allProducts, container);
+            } else if (txt.includes("مجففة")) {
+                renderProducts(allProducts.filter(p => p.category === "dried" || p.category === "فواكه مجففة"), container);
+            } else if (txt.includes("بودر")) {
+                renderProducts(allProducts.filter(p => p.category === "powder" || p.category === "بودر طبيعي"), container);
+            }
+        });
+    });
+}
