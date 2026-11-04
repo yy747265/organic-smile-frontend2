@@ -1,5 +1,5 @@
 /* =========================================================
-   ORGANIC Smile — script.js (عربي / English) - المعدل والمحدث
+   ORGANIC Smile — script.js (المعدل بالكامل لتطبيق تعديلات الواجهة)
    ========================================================= */
 
 const API_URL = "https://organic-smile-public-api.vercel.app/api/products";
@@ -228,7 +228,7 @@ function applyLang() {
     applyWhatsapp();
     renderAds();
     renderCart();
-    applyCustomHero(); // تطبيق العنوان المخصص فوراً عند تغيير اللغة أو التحميل
+    applyAdminHeroSettings(); // تطبيق التعديلات المحفوظة من لوحة التحكم فوراً
     if (rerender) rerender();
 }
 
@@ -238,81 +238,35 @@ function setLang(l) {
     applyLang();
 }
 
-// دالة تطبيق العنوان الرئيسي والصورة المخصصة من لوحة التحكم
-function applyCustomHero() {
+// دالة تطبيق تعديلات الواجهة وشريط العروض المحفوظة من لوحة التحكم (admin_hero_settings)
+function applyAdminHeroSettings() {
     try {
-        const heroData = JSON.parse(localStorage.getItem("custom_hero_data") || "{}");
-        const heroTitleEl = document.querySelector(".hero h1");
+        const heroSettings = JSON.parse(localStorage.getItem("admin_hero_settings") || "{}");
         
-        if (heroTitleEl) {
-            if (heroData.title) {
-                heroTitleEl.innerHTML = heroData.title.includes("<em>") ? heroData.title : heroData.title + " <em>بأعلى جودة</em>";
+        // 1. تحديث العنوان الرئيسي
+        if (heroSettings.title) {
+            const titleEl = document.querySelector(".hero-title, h1, .hero h1");
+            if (titleEl) {
+                titleEl.textContent = heroSettings.title;
+            }
+        }
+        
+        // 2. تحديث الصورة الرئيسية بجانب العنوان
+        if (heroSettings.mainImg) {
+            const imgEl = document.querySelector(".hero-image img, .main-banner img, .hero-visual img");
+            if (imgEl) {
+                imgEl.src = heroSettings.mainImg;
             }
         }
 
-        if (heroData.mainImg) {
-            const visualContainer = document.querySelector(".hero-visual");
-            if (visualContainer) {
-                visualContainer.innerHTML = `<img src="${heroData.mainImg}" style="width: 100%; max-width: 380px; border-radius: 20px; border: 1px solid var(--gold); box-shadow: var(--shadow-gold);">`;
-            }
+        // 3. تطبيق شريط العروض المتحرك إن وجد
+        const customOffers = JSON.parse(localStorage.getItem("admin_custom_offers") || "[]");
+        const announcementBar = document.querySelector(".admin-announcement, .announcement-bar, marquee, .top-bar");
+        if (customOffers.length > 0 && announcementBar) {
+            announcementBar.innerHTML = `<i class="fa-solid fa-bullhorn"></i> ${customOffers.join(" &nbsp;&bull;&nbsp; ")}`;
         }
     } catch (e) {
-        console.error("Error applying custom hero:", e);
-    }
-}
-
-// دالة حفظ العنوان الرئيسي والواجهة من صفحة الأدمن
-function setupHeroForm() {
-    const heroForm = document.getElementById("heroForm");
-    if (heroForm) {
-        try {
-            const currentHero = JSON.parse(localStorage.getItem("custom_hero_data") || "{}");
-            if (currentHero.title) {
-                const titleInput = document.getElementById("heroTitleInput");
-                if (titleInput) titleInput.value = currentHero.title;
-            }
-        } catch(e){}
-
-        heroForm.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            
-            const titleInput = document.getElementById("heroTitleInput").value.trim();
-            const mainImgInput = document.getElementById("heroMainImgInput");
-
-            let heroData = JSON.parse(localStorage.getItem("custom_hero_data") || "{}");
-
-            if (titleInput) {
-                heroData.title = titleInput;
-            }
-
-            if (mainImgInput && mainImgInput.files.length > 0) {
-                const reader = new FileReader();
-                reader.readAsDataURL(mainImgInput.files[0]);
-                reader.onload = () => {
-                    heroData.mainImg = reader.result;
-                    localStorage.setItem("custom_hero_data", JSON.stringify(heroData));
-                    alert("تم حفظ تغييرات العنوان والواجهة بنجاح!");
-                    applyCustomHero();
-                };
-            } else {
-                localStorage.setItem("custom_hero_data", JSON.stringify(heroData));
-                alert("تم حفظ العنوان الرئيسي بنجاح!");
-                applyCustomHero();
-            }
-        });
-    }
-
-    const removeBtn = document.getElementById("removeHeroImgsBtn");
-    if (removeBtn) {
-        removeBtn.addEventListener("click", () => {
-            if (confirm("هل تريد إزالة التعديلات وإعادة العنوان الافتراضي؟")) {
-                localStorage.removeItem("custom_hero_data");
-                const titleInput = document.getElementById("heroTitleInput");
-                if (titleInput) titleInput.value = "";
-                alert("تمت إعادة الشكل الافتراضي بنجاح!");
-                location.reload();
-            }
-        });
+        console.error("Error applying admin hero settings:", e);
     }
 }
 
@@ -705,7 +659,6 @@ let searchTerm = "";
 document.addEventListener("DOMContentLoaded", () => {
     setupMenu();
     setupCart();
-    setupHeroForm(); // تفعيل نموذج حفظ العنوان الرئيسي والواجهة
     applyLang();
     if (document.getElementById("productsContainer")) initStore();
     if (document.getElementById("detailTitle")) loadProduct();
@@ -925,7 +878,7 @@ function renderProduct(product) {
     const descEl = $("detailDesc");
     if (descEl) descEl.textContent = pick(product, "description") || t("defDesc");
 
-    const images = getImages(product); // يدعم عرض الصور المتعددة للمنتج
+    const images = getImages(product);
     const main = $("detailImg");
     if (main) {
         main.alt = name;
