@@ -7,6 +7,7 @@ let WHATSAPP_NUMBER = "201061429669";
 const DEFAULT_WHATSAPP = WHATSAPP_NUMBER;
 const SETTINGS_URL = "https://organic-smile-public-api.vercel.app/api/settings";
 const SETTINGS_CACHE = "os_site_settings";
+
 const I18N = {
  "ar": {
   "title": "ORGANIC Smile | فواكه مجففة وبودر طبيعي فاخر",
@@ -230,7 +231,6 @@ function applyLang() {
     applyWhatsapp();
     renderAds();
     renderCart();
-    applyAdminHeroSettings(); // تطبيق إعدادات الأدمن فوراً عند تغيير اللغة أو التحميل
     if (rerender) rerender();
 }
 
@@ -238,46 +238,6 @@ function setLang(l) {
     LANG = l;
     try { localStorage.setItem("lang", l); } catch (e) {}
     applyLang();
-}
-
-// دالة سحب وتطبيق تعديلات الواجهة وشريط العروض من الـ localStorage الموحد
-function applyAdminHeroSettings() {
-    try {
-        const heroSettings = JSON.parse(localStorage.getItem("admin_hero_settings") || "{}");
-        
-        // 1. تحديث العنوان الرئيسي
-        if (heroSettings.title) {
-            const titleEl = document.querySelector(".hero-title, h1, .hero h1");
-            if (titleEl) {
-                titleEl.textContent = heroSettings.title;
-            }
-        }
-        
-        // 2. تحديث الصورة الرئيسية بجانب العنوان
-        if (heroSettings.mainImg) {
-            const imgEl = document.querySelector(".hero-image img, .main-banner img, .hero-visual img");
-            if (imgEl) {
-                imgEl.src = heroSettings.mainImg;
-            }
-        }
-
-        // 3. تحديث صورة بانر العنوان (إن وجدت)
-        if (heroSettings.titleImg) {
-            const titleImgEl = document.querySelector(".hero-title-img, .banner-logo img");
-            if (titleImgEl) {
-                titleImgEl.src = heroSettings.titleImg;
-            }
-        }
-
-        // 4. تطبيق شريط العروض المتحرك
-        const customOffers = JSON.parse(localStorage.getItem("admin_custom_offers") || "[]");
-        const announcementBar = document.querySelector(".admin-announcement, .announcement-bar, marquee, .top-bar");
-        if (customOffers.length > 0 && announcementBar) {
-            announcementBar.innerHTML = `<i class="fa-solid fa-bullhorn"></i> ${customOffers.join(" &nbsp;&bull;&nbsp; ")}`;
-        }
-    } catch (e) {
-        console.error("Error applying admin hero settings:", e);
-    }
 }
 
 const PLACEHOLDER_IMG =
@@ -666,9 +626,41 @@ let allProducts = [];
 let activeFilter = "all";
 let searchTerm = "";
 
+// ===== إعدادات الموقع من لوحة التحكم (نصوص + شريط متحرك + واتساب) =====
+const I18N_DEFAULT = JSON.parse(JSON.stringify(I18N));
+
+function applySiteSettings(s) {
+    ["ar", "en"].forEach((l) => { I18N[l] = JSON.parse(JSON.stringify(I18N_DEFAULT[l])); });
+    WHATSAPP_NUMBER = DEFAULT_WHATSAPP;
+    if (!s || typeof s !== "object") return;
+    ["ar", "en"].forEach((l) => {
+        const texts = (s.texts && s.texts[l]) || {};
+        Object.keys(texts).forEach((k) => { if (texts[k]) I18N[l][k] = texts[k]; });
+        const ads = s.ads && s.ads[l];
+        if (Array.isArray(ads) && ads.length) I18N[l].ads = ads;
+    });
+    if (s.whatsapp) WHATSAPP_NUMBER = String(s.whatsapp).replace(/\D/g, "") || DEFAULT_WHATSAPP;
+}
+
+async function loadSiteSettings() {
+    try { applySiteSettings(JSON.parse(localStorage.getItem(SETTINGS_CACHE) || "null")); } catch (e) {}
+    try {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 8000);
+        const res = await fetch(SETTINGS_URL, { signal: controller.signal });
+        clearTimeout(timer);
+        if (!res.ok) return;
+        const s = await res.json();
+        applySiteSettings(s);
+        try { localStorage.setItem(SETTINGS_CACHE, JSON.stringify(s)); } catch (e) {}
+        applyLang();
+    } catch (e) { console.warn("settings load failed", e); }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     setupMenu();
     setupCart();
+    loadSiteSettings();
     applyLang();
     if (document.getElementById("productsContainer")) initStore();
     if (document.getElementById("detailTitle")) loadProduct();
@@ -804,9 +796,6 @@ function createCard(product, index) {
         sizeSelect = document.createElement("select");
         sizeSelect.className = "card-size";
         sizeSelect.setAttribute("aria-label", t("sizeSel"));
-        sizes.sizes.forEach((s, i) => { // safe guard
-            // ...
-        });
         sizes.forEach((s, i) => {
             const o = document.createElement("option");
             o.value = i;
