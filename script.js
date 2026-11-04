@@ -3,8 +3,10 @@
    ========================================================= */
 
 const API_URL = "https://organic-smile-public-api.vercel.app/api/products";
-const WHATSAPP_NUMBER = "201061429669";
-
+let WHATSAPP_NUMBER = "201061429669";
+const DEFAULT_WHATSAPP = WHATSAPP_NUMBER;
+const SETTINGS_URL = "https://organic-smile-public-api.vercel.app/api/settings";
+const SETTINGS_CACHE = "os_site_settings";
 const I18N = {
  "ar": {
   "title": "ORGANIC Smile | فواكه مجففة وبودر طبيعي فاخر",
