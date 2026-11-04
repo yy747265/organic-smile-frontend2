@@ -19,13 +19,11 @@ async function fetchProducts() {
 
         container.innerHTML = "";
         products.forEach(product => {
-            if (product.isActive !== false) {
-                container.appendChild(createProductCard(product));
-            }
+            container.appendChild(createProductCard(product));
         });
     } catch (error) {
         console.error("Error loading public products:", error);
-        container.innerHTML = "<p style='text-align:center; color:#ff6b6f; width:100%;'>تعذر تحميل المنتجات. يرجى التحديث.</p>";
+        container.innerHTML = "<p style='text-align:center; color:#ff6b6f; width:100%;'>تعذر تحميل المنتجات.</p>";
     }
 }
 
@@ -33,13 +31,13 @@ function createProductCard(product) {
     const card = document.createElement("div");
     card.className = "product-card";
 
-    // معالجة الصورة بأمان (سواء كانت Base64 أو رابط أو مسار محلي)
+    // معالجة الصور
     let imgSrc = "images/default.jpg";
     if (product.images && product.images.length > 0 && product.images[0]) {
         imgSrc = product.images[0];
     }
 
-    // معالجة الأسعار والأحجام بأمان
+    // معالجة الأسعار والأحجام
     let priceDisplay = "";
     if (Array.isArray(product.sizes) && product.sizes.length > 0) {
         const firstSize = product.sizes[0];
