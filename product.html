@@ -1,79 +1,114 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" style="scroll-behavior: smooth;">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المنتج | ORGANIC Smile</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <title>تفاصيل المنتج | ORGANIC Smile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <style>
+        body { background-color: #0b0b0a; color: #f4f1ea; font-family: 'Tajawal', sans-serif; margin: 0; padding: 0; }
+        .product-detail-container { max-width: 900px; margin: 40px auto; padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .product-img-box img { width: 100%; height: 350px; object-fit: cover; border-radius: 16px; border: 1px solid rgba(201,169,97,0.3); }
+        .product-info-box h1 { color: #C9A961; margin-top: 0; }
+        .price-tag { font-size: 24px; font-weight: bold; color: #E5C78B; margin: 15px 0; }
+        .sizes-box { margin: 20px 0; }
+        .size-btn { padding: 8px 16px; margin: 4px; border: 1px solid #C9A961; background: #151513; color: #fff; border-radius: 8px; cursor: pointer; }
+        .size-btn.active { background: #C9A961; color: #000; font-weight: bold; }
+        .back-btn { display: inline-block; margin-bottom: 20px; color: #C9A961; text-decoration: none; font-weight: bold; }
+        @media (max-width: 768px) { .product-detail-container { grid-template-columns: 1fr; } }
+    </style>
 </head>
 <body>
-    <header class="navbar" id="navbar">
-        <div class="logo">
-            <a href="index.html">
-                <img src="images/logo.jpg" alt="ORGANIC Smile Logo" width="150" height="50">
-            </a>
-        </div>
-        <nav class="nav-links">
-            <a href="index.html">الرئيسية</a>
-        </nav>
+
+    <header class="navbar" style="padding: 15px 5%; border-bottom: 1px solid rgba(201,169,97,0.2);">
+        <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-right"></i> العودة للمتجر</a>
     </header>
 
-    <main class="pp-main" id="ppRoot" style="min-height: 70vh; max-width: 1100px; margin: 0 auto; padding: 110px 5% 70px;"></main>
+    <div class="product-detail-container">
+        <div class="product-img-box">
+            <img id="detailImg" src="https://via.placeholder.com/400x350?text=ORGANIC+Smile" alt="صورة المنتج">
+        </div>
+        <div class="product-info-box">
+            <h1 id="detailTitle">جاري تحميل المنتج...</h1>
+            <div id="detailCat" style="color: #9b9686; font-size: 14px;"></div>
+            <div class="price-tag" id="detailPrice">-- ج.م</div>
+            <p id="detailDesc" style="line-height: 1.8; color: #ccc;">منتج طبيعي فاخر 100% بدون أي إضافات صناعية.</p>
+            
+            <div class="sizes-box">
+                <label style="display:block; margin-bottom:10px; font-weight:bold; color:#C9A961;">الأحجام المتاحة:</label>
+                <div id="detailSizes"></div>
+            </div>
+        </div>
+    </div>
 
-    <footer style="text-align: center; padding: 26px 5%; color: #9b9686; border-top: 1px solid rgba(201,169,97,.18);">
-        &copy; 2026 ORGANIC Smile
-    </footer>
-
-    <!-- Link to your external script -->
-    <script src="script.js"></script>
     <script>
-        const PUBLIC_API_URL = "http://127.0.0.1:8000/admin/products";
+    const PUBLIC_API_URL = "https://organic-smile-public-api.vercel.app/api/products";
 
-        async function loadSingleProduct() {
-            var root = document.getElementById("ppRoot");
-            var urlName = new URLSearchParams(location.search).get("name");
+    document.addEventListener("DOMContentLoaded", async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productName = urlParams.get("name");
 
-            try {
-                var res = await fetch(PUBLIC_API_URL);
-                var products = await res.json();
-                var p = products.find(x => x.name === urlName);
-
-                if (!p) {
-                    root.innerHTML = '<h2 style="color: #fff; text-align: center;">المنتج غير موجود</h2>';
-                    return;
-                }
-
-                // Format price
-                let price = "0";
-                if (p.sizes && p.sizes[0]) {
-                    const priceMatch = p.sizes[0].match(/-\s*(\d+)/);
-                    if (priceMatch) price = priceMatch[1];
-                }
-                const img = (p.images && p.images.length > 0) ? p.images[0] : "images/placeholder.jpg";
-
-                root.innerHTML = `
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start;">
-                        <div>
-                            <img src="${img}" alt="${p.name}" style="width: 100%; border-radius: 12px; border: 1px solid #C9A961;">
-                        </div>
-                        <div style="color: #fff;">
-                            <h1 style="color: #E5C78B; font-size: 34px;">${p.name}</h1>
-                            <h2 style="color: #C9A961; margin: 20px 0;">السعر: ${price} ج.م</h2>
-                            <p style="color: #b9b4a4; font-size: 18px;">فواكه مجففة طبيعية 100% مختارة بعناية.</p>
-                            <button style="margin-top: 20px; width: 100%; padding: 15px; background: #C9A961; color: #000; border: none; border-radius: 999px; font-size: 18px; font-weight: bold; cursor: pointer;">
-                                اطلب الآن عبر واتساب
-                            </button>
-                        </div>
-                    </div>
-                `;
-            } catch (err) {
-                console.error("Error:", err);
-                root.innerHTML = '<h2 style="color: red; text-align: center;">خطأ في الاتصال بالخادم</h2>';
-            }
+        if (!productName) {
+            document.getElementById("detailTitle").textContent = "لم يتم تحديد منتج";
+            return;
         }
-        document.addEventListener("DOMContentLoaded", loadSingleProduct);
+
+        try {
+            const response = await fetch(PUBLIC_API_URL);
+            const products = await response.json();
+
+            const product = products.find(p => p.name === decodeURIComponent(productName));
+
+            if (product) {
+                document.getElementById("detailTitle").textContent = product.name;
+                document.getElementById("detailCat").textContent = (product.category === 'dried' || product.category === 'فواكه مجففة') ? 'فواكه مجففة' : 'بودر طبيعي';
+                
+                if (product.description) {
+                    document.getElementById("detailDesc").textContent = product.description;
+                }
+
+                if (product.images && product.images[0]) {
+                    document.getElementById("detailImg").src = product.images[0];
+                }
+
+                const sizesContainer = document.getElementById("detailSizes");
+                const priceTag = document.getElementById("detailPrice");
+                sizesContainer.innerHTML = "";
+
+                if (Array.isArray(product.sizes) && product.sizes.length > 0) {
+                    product.sizes.forEach((item, idx) => {
+                        let sName = typeof item === 'object' ? item.size : item;
+                        let sPrice = typeof item === 'object' ? item.price : "";
+
+                        if (idx === 0 && sPrice) {
+                            priceTag.textContent = sPrice + " ج.م";
+                        }
+
+                        const btn = document.createElement("button");
+                        btn.className = idx === 0 ? "size-btn active" : "size-btn";
+                        btn.textContent = `${sName} ${sPrice ? ' - ' + sPrice + ' ج.م' : ''}`;
+                        
+                        btn.onclick = () => {
+                            document.querySelectorAll(".size-btn").forEach(b => b.classList.remove("active"));
+                            btn.classList.add("active");
+                            if (sPrice) priceTag.textContent = sPrice + " ج.م";
+                        };
+
+                        sizesContainer.appendChild(btn);
+                    });
+                }
+            } else {
+                document.getElementById("detailTitle").textContent = "المنتج غير موجود";
+            }
+        } catch (err) {
+            console.error(err);
+            document.getElementById("detailTitle").textContent = "خطأ في تحميل بيانات المنتج";
+        }
+    });
     </script>
 </body>
 </html>
