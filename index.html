@@ -1,99 +1,48 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORGANIC Smile | المتجر الرسمي</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+<script>
+const PUBLIC_API_URL = "https://organic-smile-public-api.vercel.app/api/products";
 
-    <!-- الشريط العلوي والتنقل -->
-    <header class="navbar">
-        <div class="container nav-container">
-            <div class="logo">
-                <a href="index.html">
-                    <img src="logo.jpg" alt="ORGANIC Smile Logo" onerror="this.src='https://via.placeholder.com/50?text=Smile'">
-                </a>
-            </div>
-            <nav class="nav-links">
-                <a href="index.html" class="active">الرئيسية</a>
-                <a href="#featured-products">المتجر</a>
-                <a href="#about">قصتنا</a>
-                <a href="#contact">تواصل معنا</a>
-            </nav>
-            <div class="nav-actions">
-                <a href="cart.html" class="cart-icon">
-                    <i class="fa-solid fa-bag-shopping"></i>
-                    <span id="cartCount" class="cart-badge">0</span>
-                </a>
-            </div>
-        </div>
-    </header>
+document.addEventListener("DOMContentLoaded", async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const productName = urlParams.get("name");
 
-    <!-- الواجهة الرئيسية (Hero Section) -->
-    <section class="hero-section">
-        <div class="container hero-container">
-            <div class="hero-content">
-                <h1 id="heroTitle">فخامة الطبيعة في كل قضمة</h1>
-                <p>مجموعتنا المختارة بعناية من الفواكه المجففة والبودر الطبيعي الصافي 100% بدون أي إضافات صناعية.</p>
-                <a href="#featured-products" class="btn-primary">تسوق الآن</a>
-            </div>
-            <div class="hero-image">
-                <img id="heroMainImg" src="images/hero.jpg" alt="ORGANIC Smile Products" onerror="this.src='https://via.placeholder.com/500x400?text=ORGANIC+Smile'">
-            </div>
-        </div>
-    </section>
+    if (!productName) return;
 
-    <!-- شريط العروض المتحرك -->
-    <div class="ticker-wrap">
-        <div class="ticker" id="offersTicker">
-            <div class="ticker-item">✨ شحن مجاني للطلبات فوق 700 ج.م ✨</div>
-            <div class="ticker-item">🌿 منتجات طبيعية 100% بدون سكر مضاف 🌿</div>
-        </div>
-    </div>
+    try {
+        const response = await fetch(PUBLIC_API_URL);
+        const products = await response.json();
 
-    <!-- قسم منتجاتنا المميزة (المعدل بـ id="productsContainer") -->
-    <section class="featured-products" id="featured-products">
-        <div class="container">
-            <h2 class="section-title">منتجاتنا المميزة</h2>
-            <p class="section-subtitle">اكتشف مجموعتنا الفاخرة من الفواكه المجففة والبودر الطبيعي 100%</p>
-            
-            <!-- أزرار الفلترة -->
-            <div class="filter-buttons">
-                <button class="filter-btn active">جميع المنتجات</button>
-                <button class="filter-btn">فواكه مجففة</button>
-                <button class="filter-btn">بودر طبيعي</button>
-            </div>
+        // البحث عن المنتج بالاسم
+        const product = products.find(p => p.name === decodeURIComponent(productName));
 
-            <!-- شبكة عرض المنتجات -->
-            <div id="productsContainer" class="products-grid"></div>
-        </div>
-    </section>
+        if (product) {
+            // عرض اسم المنتج
+            const nameEl = document.getElementById("productTitle") || document.getElementById("productName");
+            if (nameEl) nameEl.textContent = product.name;
 
-    <!-- الفوتر Footer -->
-    <footer class="footer">
-        <div class="container footer-container">
-            <div class="footer-brand">
-                <h3>ORGANIC Smile</h3>
-                <p>طبيعي 100% - جودة فاخرة تناسب أسلوب حياتك الصحي.</p>
-            </div>
-            <div class="footer-links">
-                <a href="index.html">الرئيسية</a>
-                <a href="#featured-products">المنتجات</a>
-                <a href="privacy.html">سياسة الخصوصية</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 ORGANIC Smile. جميع الحقوق محفوظة.</p>
-        </div>
-    </footer>
+            // عرض الصورة
+            const imgEl = document.getElementById("mainImg") || document.getElementById("productImg");
+            if (imgEl && product.images && product.images[0]) {
+                imgEl.src = product.images[0];
+            }
 
-    <!-- ربط ملفات الجافاسكربت -->
-    <script src="script.js"></script>
-</body>
-</html>
+            // عرض الأحجام والأسعار
+            const sizesContainer = document.getElementById("productSizes") || document.getElementById("sizesBox");
+            if (sizesContainer && Array.isArray(product.sizes)) {
+                sizesContainer.innerHTML = "";
+                product.sizes.forEach((item, index) => {
+                    let sName = typeof item === 'object' ? item.size : item;
+                    let sPrice = typeof item === 'object' ? item.price + " ج.م" : "";
+
+                    const btn = document.createElement("button");
+                    btn.className = "size-btn";
+                    btn.style.cssText = "padding: 8px 16px; margin: 4px; border: 1px solid #C9A961; background: #000; color: #fff; border-radius: 8px; cursor: pointer;";
+                    btn.innerHTML = `${sName} - <strong>${sPrice}</strong>`;
+                    sizesContainer.appendChild(btn);
+                });
+            }
+        }
+    } catch (err) {
+        console.error("Error loading product details:", err);
+    }
+});
+</script>
