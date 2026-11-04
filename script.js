@@ -375,7 +375,10 @@ function renderAds() {
     });
     
     track.appendChild(group);
-    bar.appendChild(track);
+    const clone = group.cloneNode(true);
+    clone.setAttribute("aria-hidden", "true");
+    track.appendChild(clone);
+   bar.appendChild(track);
 }
 
 const CART_KEY = "os_cart";
