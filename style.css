@@ -576,3 +576,21 @@ button, input { font-family: inherit; }
 @media (max-width: 420px) {
     .features-strip { grid-template-columns: 1fr; }
 }
+
+
+/* ===== زر اللغة + دعم الاتجاه LTR للإنجليزي ===== */
+.lang-toggle {
+    padding: 8px 14px; border: 1px solid var(--line); border-radius: 50px;
+    background: transparent; color: var(--gold); font-weight: 700; font-size: 13px; cursor: pointer;
+    transition: all 0.3s var(--ease);
+}
+.lang-toggle:hover { background: var(--gold); color: #000; }
+html[dir="ltr"] .nav-links a::after { right: auto; left: 0; }
+html[dir="ltr"] .search-field i { right: auto; left: 16px; }
+html[dir="ltr"] .search-field input { padding-right: 16px; padding-left: 44px; }
+html[dir="ltr"] .product-badge { right: auto; left: 12px; }
+html[dir="ltr"] .hero-badge.b1 { right: auto; left: 8%; }
+html[dir="ltr"] .hero-badge.b2 { right: auto; left: 2%; }
+html[dir="ltr"] .hero-badge.b3 { left: auto; right: 0; }
+html[dir="ltr"] .about-points i { margin-left: 0; margin-right: 6px; }
+html[dir="ltr"] .fa-arrow-left, html[dir="ltr"] .fa-arrow-right { transform: scaleX(-1); }
