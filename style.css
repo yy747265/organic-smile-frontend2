@@ -29,7 +29,7 @@ a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
 button, input { font-family: inherit; }
 
-/* ---------- الشريط العلوي ---------- */
+/* ---------- الشريط العلوي للإعلانات ---------- */
 .topbar {
     background: #000;
     color: var(--gold);
@@ -40,14 +40,17 @@ button, input { font-family: inherit; }
     overflow: hidden;
     white-space: nowrap;
     min-height: 37px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .ads-track {
     display: inline-flex;
     width: max-content;
     animation: ads-rtl 30s linear infinite;
 }
-.ads-group { display: inline-flex; flex-shrink: 0; }
-.ads-item { padding: 0 28px; display: inline-flex; align-items: center; gap: 6px; }
+.ads-group { display: inline-flex; flex-shrink: 0; align-items: center; }
+.ads-item { padding: 0 28px; display: inline-flex; align-items: center; gap: 8px; text-align: center; }
 .ads-item i { font-size: 10px; opacity: 0.7; }
 .topbar:hover .ads-track { animation-play-state: paused; }
 html[dir="ltr"] .ads-track { animation-name: ads-ltr; }
@@ -591,7 +594,6 @@ html[dir="ltr"] .ads-track { animation-name: ads-ltr; }
     .features-strip { grid-template-columns: 1fr; }
 }
 
-
 /* ===== زر اللغة + دعم الاتجاه LTR للإنجليزي ===== */
 .lang-toggle {
     padding: 8px 14px; border: 1px solid var(--line); border-radius: 50px;
@@ -608,7 +610,6 @@ html[dir="ltr"] .hero-badge.b2 { right: auto; left: 2%; }
 html[dir="ltr"] .hero-badge.b3 { left: auto; right: 0; }
 html[dir="ltr"] .about-points i { margin-left: 0; margin-right: 6px; }
 html[dir="ltr"] .fa-arrow-left, html[dir="ltr"] .fa-arrow-right { transform: scaleX(-1); }
-
 
 /* ===== أزرار الكارت والسلة ===== */
 .btn-add {
