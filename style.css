@@ -29,44 +29,45 @@ a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
 button, input { font-family: inherit; }
 
-/* ---------- 1. الشريط العلوي للإعلانات (أبيض وفي منتصف الصفحة) ---------- */
+/* ---------- 1. الشريط العلوي للإعلانات (أبيض ومسنتر في المنتصف) ---------- */
 .topbar {
+    position: relative !important;
     background: #000000 !important;
     color: #ffffff !important; /* لون النص أبيض ناصع */
     font-size: 13px !important;
-    font-weight: 600 !important;
+    font-weight: 500 !important;
     letter-spacing: 0.5px !important;
     padding: 8px 0 !important;
     border-bottom: 1px solid var(--line) !important;
     overflow: hidden !important;
-    white-space: nowrap !important;
-    min-height: 37px !important;
+    width: 100% !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important; /* سنترة في المنتصف تماماً */
     text-align: center !important;
-    width: 100% !important;
 }
 .ads-track {
-    display: inline-flex !important;
-    width: max-content !important;
-    justify-content: center !important;
+    display: flex !important;
     align-items: center !important;
+    justify-content: center !important;
+    width: max-content !important;
+    margin: 0 auto !important;
     animation: ads-rtl 30s linear infinite !important;
 }
 .ads-group { 
-    display: inline-flex !important; 
+    display: flex !important; 
     flex-shrink: 0 !important; 
     align-items: center !important; 
     justify-content: center !important; 
 }
 .ads-item { 
-    padding: 0 20px !important; 
+    padding: 0 18px !important; 
     display: inline-flex !important; 
     align-items: center !important; 
-    gap: 6px !important; 
+    gap: 8px !important; 
     text-align: center !important; 
-    color: #ffffff !important; /* تأكيد اللون الأبيض */
+    color: #ffffff !important; /* لون النص أبيض */
+    white-space: nowrap !important;
 }
 .ads-item i { font-size: 11px !important; color: var(--gold) !important; }
 .topbar:hover .ads-track { animation-play-state: paused !important; }
@@ -74,20 +75,19 @@ html[dir="ltr"] .ads-track { animation-name: ads-ltr !important; }
 @keyframes ads-ltr { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @keyframes ads-rtl { from { transform: translateX(0); } to { transform: translateX(50%); } }
 
-/* ---------- 2. الهيدر (الأزرار متقاربة) ---------- */
+/* ---------- 2. الهيدر ورابط الملاحة (أزرار متناسقة) ---------- */
 .navbar {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px !important;
-    padding: 12px 5%;
-    background: rgba(11, 11, 10, 0.88);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--line);
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 12px 5% !important;
+    gap: 16px !important;
+    background: rgba(11, 11, 10, 0.92) !important;
+    backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid var(--line) !important;
 }
 .logo {
     font-family: 'Playfair Display', serif;
@@ -99,12 +99,16 @@ html[dir="ltr"] .ads-track { animation-name: ads-ltr !important; }
 }
 .logo span { color: var(--gold); }
 
-.nav-links { display: flex; gap: 12px !important; } /* مسافة قريبة بين روابط الهيدر */
+.nav-links { 
+    display: flex !important; 
+    align-items: center !important;
+    gap: 16px !important; /* مسافة متناسقة بين روابط الملاحة */
+}
 .nav-links a {
     position: relative;
     font-weight: 500;
-    font-size: 15px;
-    padding: 4px 0;
+    font-size: 14.5px !important;
+    padding: 4px 6px !important;
     color: #d8d4c8;
     transition: color 0.3s var(--ease);
 }
@@ -211,7 +215,12 @@ html[dir="ltr"] .ads-track { animation-name: ads-ltr !important; }
     color: transparent;
 }
 .hero p { max-width: 520px; color: #c9c5b8; font-size: 18px; margin-bottom: 34px; }
-.hero-btns { display: flex; gap: 6px !important; flex-wrap: wrap; } /* أزرار الهيرو متقاربة */
+.hero-btns { 
+    display: flex !important; 
+    align-items: center !important;
+    gap: 10px !important; 
+    flex-wrap: wrap !important; 
+}
 
 .hero-visual {
     position: relative;
@@ -276,7 +285,7 @@ html[dir="ltr"] .ads-track { animation-name: ads-ltr !important; }
 .feature h4 { font-size: 15px; font-weight: 700; }
 .feature p { font-size: 13px; color: var(--muted); line-height: 1.4; }
 
-/* ---------- 3. أزرار الفلترة (متقاربة جداً من بعضها) ---------- */
+/* ---------- 3. أزرار الفلترة (مسافات مضبوطة ومتقاربة) ---------- */
 .featured-products { padding: 80px 5%; }
 
 .toolbar {
@@ -290,20 +299,21 @@ html[dir="ltr"] .ads-track { animation-name: ads-ltr !important; }
 }
 .filter-buttons { 
     display: flex !important; 
-    gap: 4px !important; /* 👈 تقريب الأزرار جداً */
-    flex-wrap: wrap !important; 
+    align-items: center !important;
     justify-content: center !important;
+    gap: 8px !important; 
+    flex-wrap: wrap !important; 
+    margin-bottom: 30px !important;
 }
 .filter-btn {
-    padding: 6px 14px !important; /* حجم صغير ومناسب لتقريب المسافة */
+    padding: 7px 18px !important;
     background: transparent;
     border: 1px solid var(--line);
     border-radius: 50px;
     color: #d8d4c8;
     font-weight: 700;
-    font-size: 13px !important;
+    font-size: 13.5px !important;
     cursor: pointer;
-    margin: 2px !important;
     transition: all 0.3s var(--ease);
 }
 .filter-btn:hover { border-color: var(--gold); color: var(--gold); }
@@ -524,7 +534,7 @@ html[dir="ltr"] .ads-track { animation-name: ads-ltr !important; }
 .detail-price { font-size: 30px; font-weight: 800; color: var(--gold-light); margin-bottom: 14px; }
 .detail-desc { color: #c9c5b8; line-height: 1.9; margin-bottom: 22px; }
 .sizes-label { color: var(--gold); font-weight: 700; margin-bottom: 10px; }
-.size-options { display: flex; flex-wrap: wrap; gap: 5px !important; margin-bottom: 25px; }
+.size-options { display: flex; flex-wrap: wrap; gap: 6px !important; margin-bottom: 25px; }
 .size-btn {
     padding: 7px 14px !important;
     background: var(--surface);
