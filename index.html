@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORGANIC Smile | فواكه مجففة وبودر طبيعي فاخر</title>
-    <meta name="description" content="تشكيلة فاخرة من الفواكه المجففة والبودر الطبيعي الصافي بدون إضافات صناعية.">
+    <title data-i18n="title">ORGANIC Smile | فواكه مجففة وبودر طبيعي فاخر</title>
+    <meta name="description" data-i18n-content="metaDesc" content="تشكيلة فاخرة من الفواكه المجففة والبودر الطبيعي الصافي بدون إضافات صناعية.">
     <meta name="theme-color" content="#0b0b0a">
     <link rel="icon" href="images/logo.jpg">
 
@@ -17,46 +17,48 @@
 <body>
 
     <!-- شريط علوي -->
-    <div class="topbar">طبيعي 100% · بدون إضافات صناعية · جودة مختارة بعناية</div>
+    <div class="topbar" data-i18n="topbar">طبيعي 100% · بدون إضافات صناعية · جودة مختارة بعناية</div>
 
     <!-- الهيدر -->
     <header class="navbar">
-        <button class="menu-toggle" id="menuToggle" aria-label="القائمة">
+        <button class="menu-toggle" id="menuToggle" data-i18n-aria="menu" aria-label="القائمة">
             <i class="fa-solid fa-bars"></i>
         </button>
 
         <a href="index.html" class="logo">ORGANIC <span>Smile</span></a>
 
         <nav class="nav-links" id="navLinks">
-            <a href="index.html" class="active">الرئيسية</a>
-            <a href="#featured-products">المتجر</a>
-            <a href="#about">قصتنا</a>
-            <a href="#contact">تواصل معنا</a>
+            <a href="index.html" class="active" data-i18n="navHome">الرئيسية</a>
+            <a href="#featured-products" data-i18n="navShop">المتجر</a>
+            <a href="#about" data-i18n="navAbout">قصتنا</a>
+            <a href="#contact" data-i18n="navContact">تواصل معنا</a>
         </nav>
+
+        <button type="button" class="lang-toggle" id="langToggle">EN</button>
 
         <a href="#contact" class="nav-cta">
             <i class="fa-brands fa-whatsapp"></i>
-            <span>اطلب الآن</span>
+            <span data-i18n="orderNow">اطلب الآن</span>
         </a>
     </header>
 
     <!-- الهيرو -->
     <section class="hero">
         <div class="hero-content">
-            <span class="hero-tag">طبيعي 100% بدون إضافات</span>
-            <h1>فخامة الطبيعة <em>في كل قضمة</em></h1>
-            <p>تشكيلة فاخرة من الفواكه المجففة والبودر الطبيعي الصافي، جودة تتعدى التوقعات لأسلوب حياة صحي وراقي.</p>
+            <span class="hero-tag" data-i18n="heroTag">طبيعي 100% بدون إضافات</span>
+            <h1 data-i18n-html="heroH1">فخامة الطبيعة <em>في كل قضمة</em></h1>
+            <p data-i18n="heroP">تشكيلة فاخرة من الفواكه المجففة والبودر الطبيعي الصافي، جودة تتعدى التوقعات لأسلوب حياة صحي وراقي.</p>
             <div class="hero-btns">
-                <a href="#featured-products" class="btn btn-gold">تسوق المجموعة <i class="fa-solid fa-arrow-left"></i></a>
-                <a href="#about" class="btn btn-outline">اعرف قصتنا</a>
+                <a href="#featured-products" class="btn btn-gold"><span data-i18n="shopCollection">تسوق المجموعة</span> <i class="fa-solid fa-arrow-left"></i></a>
+                <a href="#about" class="btn btn-outline" data-i18n="knowStory">اعرف قصتنا</a>
             </div>
         </div>
 
         <div class="hero-visual" aria-hidden="true">
             <div class="hero-ring"></div>
-            <div class="hero-badge b1"><i class="fa-solid fa-leaf"></i><span>طبيعي</span></div>
-            <div class="hero-badge b2"><i class="fa-solid fa-seedling"></i><span>صافي</span></div>
-            <div class="hero-badge b3"><i class="fa-solid fa-star"></i><span>فاخر</span></div>
+            <div class="hero-badge b1"><i class="fa-solid fa-leaf"></i><span data-i18n="bNatural">طبيعي</span></div>
+            <div class="hero-badge b2"><i class="fa-solid fa-seedling"></i><span data-i18n="bPure">صافي</span></div>
+            <div class="hero-badge b3"><i class="fa-solid fa-star"></i><span data-i18n="bLuxury">فاخر</span></div>
             <div class="hero-center">
                 <span>ORGANIC</span>
                 <strong>Smile</strong>
@@ -66,29 +68,29 @@
 
     <!-- شريط المميزات -->
     <section class="features-strip">
-        <div class="feature"><i class="fa-solid fa-leaf"></i><div><h4>مكونات طبيعية</h4><p>بدون مواد حافظة أو إضافات</p></div></div>
-        <div class="feature"><i class="fa-solid fa-hand-holding-heart"></i><div><h4>اختيار دقيق</h4><p>نختار كل منتج بعناية</p></div></div>
-        <div class="feature"><i class="fa-solid fa-box-open"></i><div><h4>أحجام متعددة</h4><p>اختار الحجم المناسب ليك</p></div></div>
-        <div class="feature"><i class="fa-brands fa-whatsapp"></i><div><h4>اطلب بسهولة</h4><p>تواصل معانا مباشرة</p></div></div>
+        <div class="feature"><i class="fa-solid fa-leaf"></i><div><h4 data-i18n="f1t">مكونات طبيعية</h4><p data-i18n="f1p">بدون مواد حافظة أو إضافات</p></div></div>
+        <div class="feature"><i class="fa-solid fa-hand-holding-heart"></i><div><h4 data-i18n="f2t">اختيار دقيق</h4><p data-i18n="f2p">نختار كل منتج بعناية</p></div></div>
+        <div class="feature"><i class="fa-solid fa-box-open"></i><div><h4 data-i18n="f3t">أحجام متعددة</h4><p data-i18n="f3p">اختار الحجم المناسب ليك</p></div></div>
+        <div class="feature"><i class="fa-brands fa-whatsapp"></i><div><h4 data-i18n="f4t">اطلب بسهولة</h4><p data-i18n="f4p">تواصل معانا مباشرة</p></div></div>
     </section>
 
     <!-- المنتجات -->
     <section class="featured-products" id="featured-products">
         <div class="section-header">
-            <span class="eyebrow">المجموعة</span>
-            <h2 class="section-title">منتجاتنا المميزة</h2>
-            <p class="section-subtitle">اكتشف الطعم الأصلي والفوائد الكاملة المجهزة بعناية</p>
+            <span class="eyebrow" data-i18n="eyColl">المجموعة</span>
+            <h2 class="section-title" data-i18n="prodTitle">منتجاتنا المميزة</h2>
+            <p class="section-subtitle" data-i18n="prodSub">اكتشف الطعم الأصلي والفوائد الكاملة المجهزة بعناية</p>
         </div>
 
         <div class="toolbar">
             <div class="filter-buttons">
-                <button class="filter-btn active" data-filter="all">جميع المنتجات</button>
-                <button class="filter-btn" data-filter="dried">فواكه مجففة</button>
-                <button class="filter-btn" data-filter="powder">بودر طبيعي</button>
+                <button class="filter-btn active" data-filter="all" data-i18n="fAll">جميع المنتجات</button>
+                <button class="filter-btn" data-filter="dried" data-i18n="fDried">فواكه مجففة</button>
+                <button class="filter-btn" data-filter="powder" data-i18n="fPowder">بودر طبيعي</button>
             </div>
             <div class="search-field">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="search" id="searchInput" placeholder="ابحث عن منتج...">
+                <input type="search" id="searchInput" data-i18n-ph="searchPh" placeholder="ابحث عن منتج...">
             </div>
         </div>
 
@@ -104,13 +106,13 @@
     <!-- قصتنا -->
     <section class="about" id="about">
         <div class="about-inner">
-            <span class="eyebrow">قصتنا</span>
-            <h2 class="section-title">طبيعة صافية بلمسة فاخرة</h2>
-            <p>في ORGANIC Smile بنؤمن إن الأكل الصحي مش لازم يكون عادي. بنختار فواكهنا المجففة والبودر الطبيعي بعناية، علشان توصلك بأحسن طعم وأعلى جودة، من غير أي إضافات صناعية.</p>
+            <span class="eyebrow" data-i18n="eyStory">قصتنا</span>
+            <h2 class="section-title" data-i18n="aboutTitle">طبيعة صافية بلمسة فاخرة</h2>
+            <p data-i18n="aboutP">في ORGANIC Smile بنؤمن إن الأكل الصحي مش لازم يكون عادي. بنختار فواكهنا المجففة والبودر الطبيعي بعناية، علشان توصلك بأحسن طعم وأعلى جودة، من غير أي إضافات صناعية.</p>
             <div class="about-points">
-                <span><i class="fa-solid fa-check"></i> بدون مواد حافظة</span>
-                <span><i class="fa-solid fa-check"></i> طعم أصلي</span>
-                <span><i class="fa-solid fa-check"></i> جودة ثابتة</span>
+                <span><i class="fa-solid fa-check"></i> <span data-i18n="ap1">بدون مواد حافظة</span></span>
+                <span><i class="fa-solid fa-check"></i> <span data-i18n="ap2">طعم أصلي</span></span>
+                <span><i class="fa-solid fa-check"></i> <span data-i18n="ap3">جودة ثابتة</span></span>
             </div>
         </div>
     </section>
@@ -118,21 +120,19 @@
     <!-- تواصل معنا -->
     <section class="contact" id="contact">
         <div class="section-header">
-            <span class="eyebrow">تواصل معنا</span>
-            <h2 class="section-title">جاهز تطلب؟</h2>
-            <p class="section-subtitle">كلمنا على واتساب وهنساعدك تختار وتطلب</p>
+            <span class="eyebrow" data-i18n="eyContact">تواصل معنا</span>
+            <h2 class="section-title" data-i18n="contactTitle">جاهز تطلب؟</h2>
+            <p class="section-subtitle" data-i18n="contactSub">كلمنا على واتساب وهنساعدك تختار وتطلب</p>
         </div>
-        <!-- غيّر الرقم هنا (بصيغة دولية بدون + ولا أصفار): مثال 201001234567 -->
-        <a href="https://wa.me/20XXXXXXXXXX" target="_blank" rel="noopener" class="btn btn-gold btn-lg" id="whatsappBtn">
-            <i class="fa-brands fa-whatsapp"></i> تواصل عبر واتساب
-        </a>
+                <a href="https://wa.me/201061429669" target="_blank" rel="noopener" class="btn btn-gold btn-lg" id="whatsappBtn">
+            <i class="fa-brands fa-whatsapp"></i> <span data-i18n="waBtn">تواصل عبر واتساب</span></a>
     </section>
 
     <!-- الفوتر -->
     <footer class="main-footer">
         <div class="footer-logo">ORGANIC <span>Smile</span></div>
-        <p>طبيعي 100% · طعم فاخر وجودة لا تضاهى</p>
-        <div class="footer-bottom">&copy; 2026 ORGANIC Smile. جميع الحقوق محفوظة.</div>
+        <p data-i18n="footerP">طبيعي 100% · طعم فاخر وجودة لا تضاهى</p>
+        <div class="footer-bottom" data-i18n="footerBottom">© 2026 ORGANIC Smile. جميع الحقوق محفوظة.</div>
     </footer>
 
     <script src="script.js"></script>
