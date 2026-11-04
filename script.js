@@ -362,7 +362,7 @@ function setupMenu() {
             setLang(LANG === "ar" ? "en" : "ar");
         });
     });
-}
+
 
 function applyWhatsapp() {
     document.querySelectorAll("#whatsappBtn").forEach((a) => {
