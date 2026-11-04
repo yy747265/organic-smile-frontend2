@@ -774,3 +774,64 @@ html[dir="rtl"] .ads-item { direction: rtl; }
 @media (max-width: 360px) {
     .logo { font-size: 15px; letter-spacing: 0.5px; }
 }
+
+/* =========================================================
+   تحسينات شكل الموبايل
+   ========================================================= */
+html { -webkit-text-size-adjust: 100%; }
+
+@media (max-width: 600px) {
+
+    /* ---- الهيرو ---- */
+    .hero { padding: 36px 5% 44px; gap: 18px; min-height: auto; }
+    .hero-tag { font-size: 12.5px; padding: 6px 14px; margin-bottom: 16px; }
+    .hero h1 { font-size: 32px; margin-bottom: 14px; }
+    .hero p { font-size: 15.5px; line-height: 1.8; margin-bottom: 22px; }
+    .hero-btns { flex-direction: column; align-items: stretch !important; gap: 10px !important; }
+    .hero-btns .btn { width: 100%; padding: 13px 20px !important; font-size: 15px; }
+
+    .hero-visual { min-height: 250px; margin-top: 6px; overflow: hidden; }
+    .hero-ring { width: 230px; height: 230px; }
+    .hero-center { width: 150px; height: 150px; }
+    .hero-center span { font-size: 11px; letter-spacing: 3px; }
+    .hero-center strong { font-size: 32px; }
+    .hero-badge { padding: 6px 12px; font-size: 12px; gap: 6px; }
+    .hero-badge.b1 { top: 6%; right: 6%; }
+    .hero-badge.b2 { bottom: 8%; right: 4%; }
+    .hero-badge.b3 { top: 44%; left: 2%; }
+    html[dir="ltr"] .hero-badge.b1 { left: 6%; right: auto; }
+    html[dir="ltr"] .hero-badge.b2 { left: 4%; right: auto; }
+    html[dir="ltr"] .hero-badge.b3 { right: 2%; left: auto; }
+
+    /* ---- شريط المميزات ---- */
+    .features-strip { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 16px 4%; }
+    .feature { flex-direction: column; text-align: center; gap: 6px; padding: 10px 4px; }
+    .feature i { font-size: 22px; }
+    .feature h4 { font-size: 14px; }
+    .feature p { font-size: 12px; }
+
+    /* ---- قسم المنتجات ---- */
+    .featured-products { padding: 40px 4%; }
+    .toolbar { gap: 12px; margin-bottom: 18px; }
+    .search-field { width: 100%; }
+    .search-field input { width: 100%; font-size: 15px; padding-top: 11px; padding-bottom: 11px; }
+    .filter-buttons { margin-bottom: 18px !important; gap: 8px !important; }
+    .filter-btn { flex: 1 1 auto; text-align: center; padding: 9px 14px !important; }
+
+    /* ---- كروت المنتجات ---- */
+    .products-grid { gap: 10px; }
+    .product-title { font-size: 14px; line-height: 1.5; }
+    .product-price { font-size: 12.5px; }
+    .product-price strong { font-size: 15px; }
+    .card-size { font-size: 12px; padding: 7px 8px; }
+    .btn-add { width: calc(100% - 20px); margin: 8px 10px 0; padding: 10px 6px; font-size: 12.5px; }
+    .btn-details { margin: 6px 10px 12px; padding: 9px 6px !important; font-size: 12.5px; }
+    .product-badge { font-size: 11px; padding: 3px 9px; }
+
+    /* ---- السلة ---- */
+    .cart-drawer { width: 100%; max-width: 100vw; }
+
+    /* ---- صفحة المنتج ---- */
+    .detail-actions .btn { flex: 1 1 100%; }
+    .size-btn { padding: 9px 12px; font-size: 13px; }
+}
