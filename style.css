@@ -908,27 +908,28 @@ html { -webkit-text-size-adjust: 100%; }
     body.menu-open { overflow: hidden; }
 }
 
+008; }
 /* =========================================================
-   ثيم جديد: أخضر + بني + برتقالي
+   ثيم جديد: أخضر + بني + دهبي
    (لو عاوز ترجع للقديم امسح الكتلة دي كلها)
    ========================================================= */
 :root {
     --bg: #0e1a12;
     --surface: #14261a;
     --surface-2: #1c3524;
-    --line: rgba(232, 134, 43, 0.28);
-    --gold: #E8862B;
-    --gold-light: #F6A850;
-    --gold-dark: #C46A17;
+    --line: rgba(201, 169, 97, 0.28);
+    --gold: #C9A961;
+    --gold-light: #E5C78B;
+    --gold-dark: #A8884A;
     --text: #f6efe4;
     --muted: #b3a38c;
-    --shadow-gold: 0 10px 30px rgba(232, 134, 43, 0.22);
+    --shadow-gold: 0 10px 30px rgba(201, 169, 97, 0.22);
 }
 
-/* الشريط العلوي: كريمي بنص بني وأيقونات برتقالي */
+/* الشريط العلوي: كريمي بنص بني وأيقونات دهبي */
 .topbar { background: #fbf3e6 !important; color: #3a2414 !important; }
 .ads-item { color: #3a2414 !important; }
-.ads-item i { color: #C46A17 !important; }
+.ads-item i { color: #9A7B3C !important; }
 
 /* الهيدر بني غامق */
 .navbar { background: rgba(38, 26, 17, 0.95) !important; }
@@ -938,20 +939,20 @@ html { -webkit-text-size-adjust: 100%; }
 /* الهيرو */
 .hero {
     background:
-        radial-gradient(circle at 80% 20%, rgba(232, 134, 43, 0.16), transparent 45%),
+        radial-gradient(circle at 80% 20%, rgba(201, 169, 97, 0.16), transparent 45%),
         radial-gradient(circle at 10% 90%, rgba(90, 150, 80, 0.2), transparent 40%),
         var(--bg);
 }
-.hero-tag { background: rgba(232, 134, 43, 0.1); }
+.hero-tag { background: rgba(201, 169, 97, 0.1); }
 .hero p, .about-inner p, .detail-desc { color: #d9cdb9; }
 .hero-center {
     background: radial-gradient(circle at 30% 30%, #5a3d28, #24170f);
-    box-shadow: 0 0 60px rgba(232, 134, 43, 0.25), inset 0 0 40px rgba(232, 134, 43, 0.1);
+    box-shadow: 0 0 60px rgba(201, 169, 97, 0.25), inset 0 0 40px rgba(201, 169, 97, 0.1);
 }
 
 /* الأزرار */
 .btn-gold { color: #1d1008; }
-.btn-gold:hover { box-shadow: 0 14px 34px rgba(232, 134, 43, 0.4); }
+.btn-gold:hover { box-shadow: 0 14px 34px rgba(201, 169, 97, 0.4); }
 .btn-outline:hover { color: #1d1008; }
 
 /* الفوتر بني */
@@ -959,13 +960,13 @@ html { -webkit-text-size-adjust: 100%; }
 .footer-bottom { border-top-color: #3a2a1e; color: #a08e76; }
 
 /* السلة */
-.cart-item { border-bottom-color: rgba(232, 134, 43, 0.15); }
+.cart-item { border-bottom-color: rgba(201, 169, 97, 0.15); }
 
 /* القايمة الجانبية على الموبايل */
 @media (max-width: 768px) {
     .navbar { background: #261a11 !important; }
     .nav-links { background: #2a1c12 !important; }
-    .nav-links a { border-bottom-color: rgba(232, 134, 43, 0.18); }
+    .nav-links a { border-bottom-color: rgba(201, 169, 97, 0.18); }
 }
 
 /* نافذة الحساب */
