@@ -1,5 +1,5 @@
 /* =========================================================
-   ORGANIC Smile — script.js (الصفحة العامة - النسخة المتوافقة تماماً مع الأدمن)
+   ORGANIC Smile — script.js (النسخة النهائية الشاملة: السلة + صفحة المنتج منفرد)
    ========================================================= */
 
 const API_URL = "https://organic-smile-public-api.vercel.app/api/products";
@@ -720,7 +720,10 @@ document.addEventListener("DOMContentLoaded", () => {
     loadSiteSettings();
     applyLang();
     if (document.getElementById("productsContainer")) initStore();
-    if (document.getElementById("detailTitle")) loadProduct();
+    if (document.getElementById("detailTitle")) {
+        loadProduct();
+        setupProductCheckoutForm();
+    }
 });
 
 function initStore() {
@@ -882,6 +885,65 @@ function createCard(product, index) {
 }
 
 let selectedSizeIndex = 0;
+let currentProductForOrder = null;
+let currentSelectedSizeForOrder = null;
+
+function setupProductCheckoutForm() {
+    const actionsBlock = document.querySelector(".detail-actions");
+    if (!actionsBlock) return;
+
+    // حقن حقول إدخال بيانات الزبون في صفحة تفاصيل المنتج المنفردة
+    const formDiv = document.createElement("div");
+    formDiv.className = "product-checkout-form";
+    formDiv.style.cssText = "display: grid; gap: 8px; width: 100%; margin-bottom: 10px;";
+    formDiv.innerHTML = `
+        <input type="text" id="prod-customer-name" placeholder="الاسم الثلاثي" required style="padding: 10px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface-2); color: var(--text); font-size: 14px; outline: none; width: 100%;">
+        <input type="tel" id="prod-customer-phone" placeholder="رقم الموبايل (واتساب)" required style="padding: 10px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface-2); color: var(--text); font-size: 14px; outline: none; width: 100%;">
+        <textarea id="prod-customer-address" placeholder="العنوان بالتفصيل (المحافظة، المدينة، الشارع، رقم الحائط)" rows="2" required style="padding: 10px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface-2); color: var(--text); font-size: 14px; outline: none; width: 100%; font-family: inherit; resize: none;"></textarea>
+    `;
+    actionsBlock.parentNode.insertBefore(formDiv, actionsBlock);
+
+    // ربط زر الطلب في صفحة المنتج بالتحقق من البيانات وتكوين رسالة الواتساب
+    const orderBtn = document.getElementById("orderBtn");
+    if (orderBtn) {
+        orderBtn.addEventListener("click", (e) => {
+            const name = document.getElementById("prod-customer-name")?.value.trim() || "";
+            const phone = document.getElementById("prod-customer-phone")?.value.trim() || "";
+            const address = document.getElementById("prod-customer-address")?.value.trim() || "";
+
+            if (!name || !phone || !address) {
+                e.preventDefault();
+                alert("من فضلك أدخل الاسم، رقم التليفون، والعنوان بالتفصيل لإتمام الطلب.");
+                return;
+            }
+
+            if (currentProductForOrder) {
+                const productName = pick(currentProductForOrder, "name");
+                const selected = currentSelectedSizeForOrder;
+                const hasPrice = selected && selected.price !== null;
+
+                let msg = [
+                    "🌿 *طلب جديد لمنتج منفرد من المتجر* 🌿",
+                    "",
+                    `👤 *الاسم:* ${name}`,
+                    `📱 *رقم التليفون:* ${phone}`,
+                    `📍 *العنوان:* ${address}`,
+                    "",
+                    t("msgOrder") + productName
+                ];
+
+                if (selected && sizeLabel(selected)) {
+                    msg.push(t("msgSize") + sizeLabel(selected));
+                }
+                if (hasPrice) {
+                    msg.push(t("msgPrice") + formatPrice(selected.price));
+                }
+
+                orderBtn.href = whatsappLink(msg.join("\n"));
+            }
+        });
+    }
+}
 
 function showMessage(titleKey, textKey) {
     rerender = () => showMessage(titleKey, textKey);
@@ -926,6 +988,7 @@ async function loadProduct() {
 }
 
 function renderProduct(product) {
+    currentProductForOrder = product;
     const $ = (id) => document.getElementById(id);
     const name = pick(product, "name");
 
@@ -970,15 +1033,11 @@ function renderProduct(product) {
 
     function update() {
         const selected = sizes[selectedSizeIndex] || null;
+        currentSelectedSizeForOrder = selected;
         const hasPrice = selected && selected.price !== null;
         const priceEl = $("detailPrice");
         if (priceEl) priceEl.textContent = hasPrice ? formatPrice(selected.price) : t("askPrice");
 
-        let msg = t("msgOrder") + name;
-        if (selected && sizeLabel(selected)) msg += t("msgSize") + sizeLabel(selected);
-        if (hasPrice) msg += t("msgPrice") + formatPrice(selected.price);
-        const orderBtn = $("orderBtn");
-        if (orderBtn) orderBtn.href = whatsappLink(msg);
         const addBtn = $("addBtn");
         if (addBtn) addBtn.onclick = () => addToCart(product, selected);
     }
