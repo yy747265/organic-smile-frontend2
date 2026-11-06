@@ -330,7 +330,7 @@ async function fetchProducts() {
 function setupMenu() {
     const toggle = document.getElementById("menuToggle");
     const links = document.getElementById("navLinks");
-       if (toggle && links) {
+    if (toggle && links) {
         const overlay = document.createElement("div");
         overlay.className = "nav-overlay";
         document.body.appendChild(overlay);
@@ -354,15 +354,14 @@ function setupMenu() {
         links.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setOpen(false)));
         window.addEventListener("resize", () => { if (window.innerWidth > 768) setOpen(false); });
     }
-    }
+}
     
-    document.querySelectorAll(".lang-toggle, #langToggle").forEach(btn => {
-        btn.addEventListener("click", (e) => {
-            e.preventDefault();
-            setLang(LANG === "ar" ? "en" : "ar");
-        });
+document.querySelectorAll(".lang-toggle, #langToggle").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        setLang(LANG === "ar" ? "en" : "ar");
     });
-
+});
 
 function applyWhatsapp() {
     document.querySelectorAll("#whatsappBtn").forEach((a) => {
@@ -399,7 +398,7 @@ function renderAds() {
     const clone = group.cloneNode(true);
     clone.setAttribute("aria-hidden", "true");
     track.appendChild(clone);
-   bar.appendChild(track);
+    bar.appendChild(track);
 }
 
 const CART_KEY = "os_cart";
@@ -491,7 +490,26 @@ function showToast(msg) {
 }
 
 function buildCartMessage() {
-    const lines = [t("msgCartHead"), ""];
+    const customerName = document.getElementById("customer-name")?.value.trim() || "";
+    const customerPhone = document.getElementById("customer-phone")?.value.trim() || "";
+    const customerAddress = document.getElementById("customer-address")?.value.trim() || "";
+
+    if (!customerName || !customerPhone || !customerAddress) {
+        alert("من فضلك أدخل الاسم، رقم التليفون، والعنوان بالتفصيل لإتمام الطلب.");
+        return null;
+    }
+
+    const lines = [
+        "🌿 *طلب جديد من متجر Organic Smile Store* 🌿",
+        "",
+        `👤 *الاسم:* ${customerName}`,
+        `📱 *رقم التليفون:* ${customerPhone}`,
+        `📍 *العنوان:* ${customerAddress}`,
+        "",
+        t("msgCartHead"),
+        ""
+    ];
+
     cart.forEach((i, idx) => {
         const name = pick(i, "name");
         const sz = sizeLabel(i);
@@ -501,6 +519,7 @@ function buildCartMessage() {
         if (i.price !== null) line += " = " + formatPrice(i.price * i.qty);
         lines.push(line);
     });
+
     lines.push("");
     lines.push(t("msgTotal") + formatPrice(cartTotal()));
     return lines.join("\n");
@@ -536,16 +555,31 @@ function setupCart() {
             '<div class="cart-head"><h3 data-i18n="cartTitle"></h3>' +
             '<button type="button" class="cart-close" id="cartClose" data-i18n-aria="close"><i class="fa-solid fa-xmark"></i></button></div>' +
             '<div class="cart-items" id="cartItems"></div>' +
+            '<div class="checkout-form" style="padding: 12px 18px; display: grid; gap: 8px; border-top: 1px solid var(--line);">' +
+            '<input type="text" id="customer-name" placeholder="الاسم الثلاثي" required style="padding: 9px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface-2); color: var(--text); font-size: 13.5px; outline: none;">' +
+            '<input type="tel" id="customer-phone" placeholder="رقم الموبايل (واتساب)" required style="padding: 9px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface-2); color: var(--text); font-size: 13.5px; outline: none;">' +
+            '<textarea id="customer-address" placeholder="العنوان بالتفصيل (المحافظة، المدينة، الشارع، رقم الحائط)" rows="2" required style="padding: 9px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface-2); color: var(--text); font-size: 13.5px; outline: none; font-family: inherit; resize: none;"></textarea>' +
+            '</div>' +
             '<div class="cart-foot" id="cartFoot">' +
             '<div class="cart-total"><span data-i18n="total"></span><strong id="cartTotal"></strong></div>' +
             '<p class="cart-note" id="cartNote" hidden data-i18n="noPriceNote"></p>' +
-            '<a id="cartOrder" class="btn btn-gold btn-block" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> <span data-i18n="sendOrder"></span></a>' +
+            '<a id="cartOrder" class="btn btn-gold btn-block" role="button"><i class="fa-brands fa-whatsapp"></i> <span data-i18n="sendOrder"></span></a>' +
             '<button type="button" class="cart-clear" id="cartClear" data-i18n="clearCart"></button>' +
             "</div>";
         document.body.append(overlay, drawer);
 
         drawer.querySelector("#cartClose").addEventListener("click", closeCart);
         drawer.querySelector("#cartClear").addEventListener("click", () => { cart = []; saveCart(); renderCart(); });
+        
+        drawer.querySelector("#cartOrder").addEventListener("click", (e) => {
+            const msg = buildCartMessage();
+            if (!msg) {
+                e.preventDefault();
+                return;
+            }
+            drawer.querySelector("#cartOrder").href = whatsappLink(msg);
+        });
+
         document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeCart(); });
         window.addEventListener("storage", (e) => { if (e.key === CART_KEY) { loadCart(); renderCart(); } });
     }
@@ -565,7 +599,9 @@ function renderCart() {
 
     list.innerHTML = "";
     const foot = document.getElementById("cartFoot");
+    const formBlock = document.querySelector(".checkout-form");
     if (foot) foot.style.display = cart.length ? "" : "none";
+    if (formBlock) formBlock.style.display = cart.length ? "grid" : "none";
 
     if (!cart.length) {
         const empty = document.createElement("div");
@@ -642,15 +678,12 @@ function renderCart() {
     if (totalEl) totalEl.textContent = formatPrice(cartTotal());
     const noteEl = document.getElementById("cartNote");
     if (noteEl) noteEl.hidden = !cart.some((i) => i.price === null);
-    const orderBtn = document.getElementById("cartOrder");
-    if (orderBtn) orderBtn.href = whatsappLink(buildCartMessage());
 }
 
 let allProducts = [];
 let activeFilter = "all";
 let searchTerm = "";
 
-// ===== إعدادات الموقع من لوحة التحكم (نصوص + شريط متحرك + واتساب) =====
 const I18N_DEFAULT = JSON.parse(JSON.stringify(I18N));
 
 function applySiteSettings(s) {
