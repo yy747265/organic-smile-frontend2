@@ -1,5 +1,5 @@
 /* =========================================================
-   ORGANIC Smile — script.js (النسخة النهائية الشاملة: السلة + صفحة المنتج منفرد)
+   ORGANIC Smile — script.js (النسخة النهائية الشاملة)
    ========================================================= */
 
 const API_URL = "https://organic-smile-public-api.vercel.app/api/products";
@@ -719,12 +719,42 @@ document.addEventListener("DOMContentLoaded", () => {
     setupCart();
     loadSiteSettings();
     applyLang();
+    setupCustomCursor();
     if (document.getElementById("productsContainer")) initStore();
     if (document.getElementById("detailTitle")) {
         loadProduct();
         setupProductCheckoutForm();
     }
 });
+
+/* ===== حركة مؤشر الماوس المخصص ===== */
+function setupCustomCursor() {
+    document.addEventListener('mousemove', (e) => {
+        const cursor = document.getElementById('customCursor');
+        if (cursor) {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        }
+    });
+
+    document.addEventListener('mouseover', (e) => {
+        const cursor = document.getElementById('customCursor');
+        if (!cursor) return;
+        if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.closest('button') || e.target.closest('a')) {
+            cursor.style.transform = 'translate(-50%, -50%) scale(1.4)';
+            cursor.style.backgroundColor = 'rgba(168, 136, 74, 0.15)';
+        }
+    });
+
+    document.addEventListener('mouseout', (e) => {
+        const cursor = document.getElementById('customCursor');
+        if (!cursor) return;
+        if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.closest('button') || e.target.closest('a')) {
+            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+            cursor.style.backgroundColor = 'rgba(168, 136, 74, 0.05)';
+        }
+    });
+}
 
 function initStore() {
     document.querySelectorAll(".filter-btn").forEach((btn) => {
@@ -892,7 +922,6 @@ function setupProductCheckoutForm() {
     const actionsBlock = document.querySelector(".detail-actions");
     if (!actionsBlock) return;
 
-    // حقن حقول إدخال بيانات الزبون في صفحة تفاصيل المنتج المنفردة
     const formDiv = document.createElement("div");
     formDiv.className = "product-checkout-form";
     formDiv.style.cssText = "display: grid; gap: 8px; width: 100%; margin-bottom: 10px;";
@@ -903,7 +932,6 @@ function setupProductCheckoutForm() {
     `;
     actionsBlock.parentNode.insertBefore(formDiv, actionsBlock);
 
-    // ربط زر الطلب في صفحة المنتج بالتحقق من البيانات وتكوين رسالة الواتساب
     const orderBtn = document.getElementById("orderBtn");
     if (orderBtn) {
         orderBtn.addEventListener("click", (e) => {
