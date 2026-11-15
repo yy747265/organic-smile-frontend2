@@ -284,15 +284,16 @@ function normalizeSizes(product) {
         product.sizes.forEach((item) => {
             if (item && typeof item === "object") {
                 const p = parseFloat(item.price);
-                out.push({ size: String(item.size || ""), size_en: String(item.size_en || ""), price: isNaN(p) ? null : p });
+                const o = parseFloat(item.old_price);
+                out.push({ size: String(item.size || ""), size_en: String(item.size_en || ""), price: isNaN(p) ? null : p, old_price: !isNaN(o) && !isNaN(p) && o > p ? o : null });
             } else if (item) {
-                out.push({ size: String(item), size_en: "", price: null });
+                out.push({ size: String(item), size_en: "", price: null, old_price: null });
             }
         });
     }
     if (out.length === 0 && product.price) {
         const p = parseFloat(product.price);
-        if (!isNaN(p)) out.push({ size: "", size_en: "", price: p });
+        if (!isNaN(p)) out.push({ size: "", size_en: "", price: p, old_price: null });
     }
     return out;
 }
@@ -308,6 +309,26 @@ function sizeLabel(s) {
 
 function formatPrice(n) {
     return Number(n).toLocaleString("en-US") + " " + t("cur");
+}
+
+function discountPct(s) {
+    if (!s || s.old_price === null || s.old_price === undefined || s.price === null || s.old_price <= s.price) return 0;
+    return Math.round((1 - s.price / s.old_price) * 100);
+}
+
+function fillPrice(el, s) {
+    el.textContent = "";
+    if (!s || s.price === null) { el.textContent = t("askPrice"); return; }
+    const now = document.createElement("span");
+    now.className = "price-now";
+    now.textContent = formatPrice(s.price);
+    el.appendChild(now);
+    if (discountPct(s) > 0) {
+        const old = document.createElement("del");
+        old.className = "price-old";
+        old.textContent = formatPrice(s.old_price);
+        el.appendChild(old);
+    }
 }
 
 function productKey(p) { return String(p.name || p.name_en || "").trim(); }
@@ -872,13 +893,27 @@ function createCard(product, index) {
     body.appendChild(title);
 
     if (prices.length) {
+        const cheapest = sizes.filter((x) => x.price !== null).sort((a, b) => a.price - b.price)[0];
         const priceBox = document.createElement("div");
         priceBox.className = "product-price";
-        if (sizes.length > 1) priceBox.appendChild(document.createTextNode(t("startsFrom") + " "));
-        const strong = document.createElement("strong");
-        strong.textContent = formatPrice(Math.min(...prices));
-        priceBox.appendChild(strong);
+        if (sizes.length > 1) {
+            const from = document.createElement("span");
+            from.className = "price-from";
+            from.textContent = t("startsFrom");
+            priceBox.appendChild(from);
+        }
+        const line = document.createElement("div");
+        line.className = "price-line";
+        fillPrice(line, cheapest);
+        priceBox.appendChild(line);
         body.appendChild(priceBox);
+        const pct = discountPct(cheapest);
+        if (pct > 0) {
+            const off = document.createElement("span");
+            off.className = "product-discount";
+            off.textContent = (LANG === "ar" ? "خصم " : "") + pct + "%" + (LANG === "ar" ? "" : " OFF");
+            imgWrap.appendChild(off);
+        }
     }
 
     let sizeSelect = null;
@@ -1064,7 +1099,16 @@ function renderProduct(product) {
         currentSelectedSizeForOrder = selected;
         const hasPrice = selected && selected.price !== null;
         const priceEl = $("detailPrice");
-        if (priceEl) priceEl.textContent = hasPrice ? formatPrice(selected.price) : t("askPrice");
+        if (priceEl) {
+            fillPrice(priceEl, hasPrice ? selected : null);
+            const pct = discountPct(selected);
+            if (pct > 0) {
+                const b = document.createElement("span");
+                b.className = "detail-discount";
+                b.textContent = (LANG === "ar" ? "وفّر " : "Save ") + pct + "%";
+                priceEl.appendChild(b);
+            }
+        }
 
         const addBtn = $("addBtn");
         if (addBtn) addBtn.onclick = () => addToCart(product, selected);
