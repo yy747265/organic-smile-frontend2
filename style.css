@@ -12,6 +12,7 @@
     --text: #2D241E;
     --muted: #6E5E52;
     --brand-red: #D62828;
+    --logo-color: #2D241E; /* لون اللوجو الموحد (ORGANIC + Smile) */
     --radius: 18px;
     --shadow-gold: 0 10px 30px rgba(168, 136, 74, 0.12);
     --ease: cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -128,10 +129,11 @@ html[dir="rtl"] .ads-item { direction: rtl; }
     font-size: 24px;
     font-weight: 700;
     letter-spacing: 2px;
-    color: var(--text);
+    color: var(--logo-color);
     white-space: nowrap;
 }
-.logo span { color: var(--gold); }
+/* كلمة Smile بنفس لون ORGANIC */
+.logo span { color: var(--logo-color); }
 
 .nav-links { 
     display: flex !important; 
@@ -526,8 +528,10 @@ html[dir="rtl"] .ads-item { direction: rtl; }
     font-weight: 700;
     letter-spacing: 2px;
     margin-bottom: 8px;
+    color: var(--logo-color);
 }
-.footer-logo span { color: var(--gold); }
+/* كلمة Smile بنفس لون ORGANIC */
+.footer-logo span { color: var(--logo-color); }
 .main-footer p { color: var(--muted); margin-bottom: 24px; }
 .footer-bottom {
     padding-top: 18px;
