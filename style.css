@@ -134,26 +134,9 @@ html[dir="rtl"] .ads-item { direction: rtl; }
 .logo span { color: var(--gold); }
 
 /* ===== اللوجو الحقيقي (نفس الخط ونفس الابتسامة ونفس اللون) في الهيدر والفوتر ===== */
-.logo-img-wrap {
-    position: relative;
-    display: inline-block;
-    line-height: 0;
-}
-.logo-img-wrap img {
-    height: 54px;
-    width: auto;
-    filter: grayscale(1) contrast(3);
-    mix-blend-mode: multiply;   /* يشيل الخلفية البيضا */
-}
-.logo-img-wrap::after {          /* يلوّن الكلام بنفس لون اللوجو اللي جوه الدايرة */
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--gold);
-    mix-blend-mode: lighten;
-    pointer-events: none;
-}
-.footer-logo .logo-img-wrap img { height: 70px; }
+.logo { display: inline-flex; align-items: center; line-height: 0; }
+.logo-img { height: 58px; width: auto; display: block; }
+.footer-logo .logo-img { height: 86px; margin: 0 auto; }
 
 .nav-links { 
     display: flex !important; 
