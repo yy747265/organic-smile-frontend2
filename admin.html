@@ -46,7 +46,8 @@ h3.group{color:var(--gold);margin:26px 0 10px;border-bottom:1px solid var(--line
 .savebar{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);padding:12px 20px;display:flex;justify-content:center}
 dialog{background:var(--card);color:var(--text);border:1px solid var(--line);border-radius:16px;padding:20px;width:min(640px,94vw);max-height:92vh}
 dialog::backdrop{background:rgba(0,0,0,.7)}
-.size-row{display:grid;grid-template-columns:1fr 1fr 110px 40px;gap:8px;margin-bottom:8px}
+.size-row{display:grid;grid-template-columns:1fr 1fr 110px 110px 40px;gap:8px;margin-bottom:8px}
+.size-head{display:grid;grid-template-columns:1fr 1fr 110px 110px 40px;gap:8px;font-size:12px;color:var(--muted);margin:4px 0 6px}
 .thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .thumb{position:relative}
 .thumb img{width:84px;height:84px;object-fit:cover;border-radius:10px;border:1px solid var(--line)}
@@ -56,7 +57,7 @@ dialog::backdrop{background:rgba(0,0,0,.7)}
 #toast{position:fixed;top:16px;left:50%;transform:translateX(-50%);background:var(--gold);color:#111;padding:10px 22px;border-radius:999px;font-weight:700;z-index:99;opacity:0;pointer-events:none;transition:opacity .25s}
 #toast.show{opacity:1}
 #toast.bad{background:var(--red);color:#fff}
-@media(max-width:560px){.grid2{grid-template-columns:1fr}.prod{flex-wrap:wrap}.size-row{grid-template-columns:1fr 1fr 90px 36px}}
+@media(max-width:560px){.grid2{grid-template-columns:1fr}.prod{flex-wrap:wrap}.size-row,.size-head{grid-template-columns:1fr 1fr 1fr 1fr 36px;gap:6px}}
 </style>
 </head>
 <body>
@@ -126,7 +127,9 @@ dialog::backdrop{background:rgba(0,0,0,.7)}
   <select id="pCat"><option value="فواكه مجففة">فواكه مجففة</option><option value="بودر طبيعي">بودر طبيعي</option></select>
 
   <label>الأحجام والأسعار</label>
+  <div class="size-head"><span>الحجم (عربي)</span><span>Size</span><span>السعر بعد الخصم</span><span>السعر قبل الخصم</span><span></span></div>
   <div id="sizes"></div>
+  <p class="hint">سيب "السعر قبل الخصم" فاضي لو مفيش خصم. لو كتبته لازم يبقى أكبر من السعر الحالي.</p>
   <button class="btn ghost small" id="addSize" type="button">+ حجم</button>
 
   <label>الصور</label>
@@ -254,7 +257,8 @@ function renderProducts() {
     name.textContent = p.name;
     const small = document.createElement("small");
     const prices = (p.sizes || []).map((s) => s && s.price).filter((x) => x !== null && x !== "" && x !== undefined);
-    small.textContent = normCat(p.category) + (prices.length ? " · من " + Math.min(...prices.map(Number)) + " ج.م" : "");
+    const hasOff = (p.sizes || []).some((s) => s && s.old_price > s.price);
+    small.textContent = normCat(p.category) + (prices.length ? " · من " + Math.min(...prices.map(Number)) + " ج.م" : "") + (hasOff ? " · عليه خصم" : "");
     info.append(name, small);
     if (p.isActive === false) {
       const off = document.createElement("span");
@@ -291,10 +295,11 @@ function sizeRow(s) {
   s = s || {};
   const row = document.createElement("div");
   row.className = "size-row";
-  row.innerHTML = '<input class="sz" placeholder="الحجم (مثلاً 250 جم)"><input class="szen" dir="ltr" placeholder="Size (250 g)"><input class="pr" type="number" min="0" placeholder="السعر"><button class="btn danger small" type="button">×</button>';
+  row.innerHTML = '<input class="sz" placeholder="الحجم (مثلاً 250 جم)"><input class="szen" dir="ltr" placeholder="Size (250 g)"><input class="pr" type="number" min="0" placeholder="السعر الحالي"><input class="op" type="number" min="0" placeholder="قبل الخصم"><button class="btn danger small" type="button">×</button>';
   row.querySelector(".sz").value = s.size || "";
   row.querySelector(".szen").value = s.size_en || "";
   row.querySelector(".pr").value = s.price === null || s.price === undefined ? "" : s.price;
+  row.querySelector(".op").value = s.old_price === null || s.old_price === undefined ? "" : s.old_price;
   row.querySelector("button").onclick = () => row.remove();
   $("sizes").appendChild(row);
 }
@@ -377,7 +382,8 @@ $("saveProd").onclick = async () => {
   if (!name) return toast("اكتب اسم المنتج", true);
   const sizes = [...document.querySelectorAll("#sizes .size-row")].map((r) => {
     const p = parseFloat(r.querySelector(".pr").value);
-    return { size: r.querySelector(".sz").value.trim(), size_en: r.querySelector(".szen").value.trim(), price: isNaN(p) ? null : p };
+    const o = parseFloat(r.querySelector(".op").value);
+    return { size: r.querySelector(".sz").value.trim(), size_en: r.querySelector(".szen").value.trim(), price: isNaN(p) ? null : p, old_price: isNaN(o) || isNaN(p) || o <= p ? null : o };
   }).filter((s) => s.size || s.size_en || s.price !== null);
   if (images.join("").length > 3800000) return toast("الصور كبيرة قوي، قلل عددها", true);
   const body = {
