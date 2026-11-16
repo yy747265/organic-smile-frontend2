@@ -8,6 +8,16 @@ const DEFAULT_WHATSAPP = WHATSAPP_NUMBER;
 const SETTINGS_URL = "https://organic-smile-public-api.vercel.app/api/settings";
 const SETTINGS_CACHE = "os_site_settings";
 
+/* =========================================================
+   آراء العملاء — ضيف هنا التقييمات الحقيقية اللي وصلتلك
+   انسخ السطر ده وكرره لكل تقييم (rating من 1 لـ 5):
+   { name: "اسم العميل", city: "المدينة", product: "اسم المنتج", rating: 5, text: "نص التعليق", date: "2026-11-01" },
+   الإجباري: name و rating و text. والباقي اختياري.
+   لو عاوز نسخة إنجليزي ضيف: text_en و product_en.
+   ========================================================= */
+const REVIEWS = [
+];
+
 const I18N = {
  "ar": {
   "title": "ORGANIC Smile | فواكه مجففة وبودر طبيعي فاخر",
@@ -46,6 +56,31 @@ const I18N = {
   "ap1": "بدون مواد حافظة",
   "ap2": "طعم أصلي",
   "ap3": "جودة ثابتة",
+  "navReviews": "آراء العملاء",
+  "rvEyebrow": "آراء عملائنا",
+  "rvTitle": "ثقتكم هي أغلى ما نملك",
+  "rvSub": "تجارب عملائنا مع منتجاتنا",
+  "rvBased": "بناءً على {n} تقييم",
+  "rvEmptyTitle": "كن أول من يشاركنا رأيه",
+  "rvEmptyP": "لسه مفيش تقييمات منشورة. جرّب منتجاتنا وشاركنا تجربتك.",
+  "rvMore": "عرض المزيد من التقييمات",
+  "rvFormTitle": "شاركنا تجربتك",
+  "rvFormSub": "رأيك يهمنا ويساعد غيرك يختار. هيوصلنا تقييمك على واتساب، وبعد مراجعته بيتم نشره.",
+  "rvName": "الاسم",
+  "rvNamePh": "اسمك",
+  "rvProduct": "المنتج (اختياري)",
+  "rvProductPh": "مثال: مانجو مجففة",
+  "rvRate": "تقييمك",
+  "rvRateNeed": "من فضلك اختار عدد النجوم",
+  "rvComment": "تعليقك",
+  "rvCommentPh": "احكي لنا عن تجربتك مع المنتج...",
+  "rvSend": "إرسال التقييم",
+  "rvSent": "شكرًا لك! تقييمك جاهز للإرسال",
+  "rvMsgHead": "تقييم جديد من الموقع ⭐",
+  "rvMsgName": "الاسم",
+  "rvMsgProduct": "المنتج",
+  "rvMsgRating": "التقييم",
+  "rvMsgComment": "التعليق",
   "eyContact": "تواصل معنا",
   "contactTitle": "جاهز تطلب؟",
   "contactSub": "كلمنا على واتساب وهنساعدك تختار وتطلب",
@@ -141,6 +176,31 @@ const I18N = {
   "ap1": "No preservatives",
   "ap2": "Authentic taste",
   "ap3": "Consistent quality",
+  "navReviews": "Reviews",
+  "rvEyebrow": "Customer Reviews",
+  "rvTitle": "Your Trust Is Our Greatest Asset",
+  "rvSub": "What our customers say about our products",
+  "rvBased": "Based on {n} reviews",
+  "rvEmptyTitle": "Be the first to share your opinion",
+  "rvEmptyP": "No reviews published yet. Try our products and share your experience.",
+  "rvMore": "Show more reviews",
+  "rvFormTitle": "Share Your Experience",
+  "rvFormSub": "Your opinion matters and helps others choose. Your review is sent to us on WhatsApp and published after we review it.",
+  "rvName": "Name",
+  "rvNamePh": "Your name",
+  "rvProduct": "Product (optional)",
+  "rvProductPh": "e.g. Dried mango",
+  "rvRate": "Your rating",
+  "rvRateNeed": "Please choose a star rating",
+  "rvComment": "Your comment",
+  "rvCommentPh": "Tell us about your experience with the product...",
+  "rvSend": "Send Review",
+  "rvSent": "Thank you! Your review is ready to send",
+  "rvMsgHead": "New review from the website ⭐",
+  "rvMsgName": "Name",
+  "rvMsgProduct": "Product",
+  "rvMsgRating": "Rating",
+  "rvMsgComment": "Comment",
   "eyContact": "Contact Us",
   "contactTitle": "Ready to Order?",
   "contactSub": "Message us on WhatsApp and we'll help you choose and order",
@@ -231,6 +291,7 @@ function applyLang() {
     applyWhatsapp();
     renderAds();
     renderCart();
+    renderReviews();
     if (rerender) rerender();
 }
 
@@ -741,6 +802,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadSiteSettings();
     applyLang();
     setupCustomCursor();
+    initReviews();
     if (document.getElementById("productsContainer")) initStore();
     if (document.getElementById("detailTitle")) {
         loadProduct();
@@ -1141,4 +1203,131 @@ function renderProduct(product) {
     if (orderBtn) orderBtn.style.display = "inline-flex";
     const addBtn = $("addBtn");
     if (addBtn) addBtn.style.display = "inline-flex";
+}
+
+/* =========================================================
+   آراء العملاء والتقييمات
+   ========================================================= */
+let reviewsShown = 6;
+
+function reviewStars(n) {
+    let out = "";
+    for (let i = 1; i <= 5; i++) out += '<span class="st' + (i <= Math.round(n) ? " on" : "") + '">★</span>';
+    return out;
+}
+
+function validReviews() {
+    return (Array.isArray(REVIEWS) ? REVIEWS : []).filter(
+        (r) => r && r.name && r.text && Number(r.rating) >= 1 && Number(r.rating) <= 5
+    );
+}
+
+function fmtReviewDate(d) {
+    const dt = new Date(d);
+    if (!d || isNaN(dt)) return "";
+    try {
+        return dt.toLocaleDateString(LANG === "ar" ? "ar-EG-u-nu-latn" : "en-GB", { year: "numeric", month: "long" });
+    } catch (e) { return ""; }
+}
+
+function renderReviews() {
+    const grid = document.getElementById("reviewsGrid");
+    if (!grid) return;
+    const summary = document.getElementById("reviewsSummary");
+    const moreBtn = document.getElementById("reviewsMore");
+    const list = validReviews();
+    grid.innerHTML = "";
+
+    if (!list.length) {
+        summary.hidden = true;
+        moreBtn.hidden = true;
+        const empty = document.createElement("div");
+        empty.className = "reviews-empty";
+        empty.innerHTML = '<div class="reviews-empty-ico" aria-hidden="true">★</div><h3></h3><p></p>';
+        empty.querySelector("h3").textContent = t("rvEmptyTitle");
+        empty.querySelector("p").textContent = t("rvEmptyP");
+        grid.appendChild(empty);
+        return;
+    }
+
+    const total = list.length;
+    const avg = list.reduce((a, r) => a + Number(r.rating), 0) / total;
+    const counts = [0, 0, 0, 0, 0, 0];
+    list.forEach((r) => counts[Math.round(Number(r.rating))]++);
+    let bars = "";
+    for (let s = 5; s >= 1; s--) {
+        bars += '<div class="rs-row"><span class="rs-lbl">' + s + ' <span class="st on">★</span></span>' +
+            '<div class="rs-bar"><i style="width:' + Math.round((counts[s] / total) * 100) + '%"></i></div>' +
+            '<span class="rs-n">' + counts[s] + "</span></div>";
+    }
+    summary.innerHTML =
+        '<div class="rs-score"><div class="rs-num">' + avg.toFixed(1) + "</div>" +
+        '<div class="rs-stars">' + reviewStars(avg) + "</div>" +
+        '<div class="rs-count">' + t("rvBased").replace("{n}", total) + "</div></div>" +
+        '<div class="rs-bars">' + bars + "</div>";
+    summary.hidden = false;
+
+    list.slice(0, reviewsShown).forEach((r) => {
+        const card = document.createElement("article");
+        card.className = "review-card";
+        card.innerHTML =
+            '<div class="review-top"><div class="review-avatar"></div>' +
+            '<div class="review-who"><strong></strong><span></span></div></div>' +
+            '<div class="review-stars" role="img"></div>' +
+            '<p class="review-text"></p>' +
+            '<div class="review-meta"><span class="review-product"></span><time></time></div>';
+        const name = String(r.name).trim();
+        card.querySelector(".review-avatar").textContent = Array.from(name)[0] || "";
+        card.querySelector(".review-who strong").textContent = name;
+        card.querySelector(".review-who span").textContent = r.city || "";
+        const stars = card.querySelector(".review-stars");
+        stars.innerHTML = reviewStars(r.rating);
+        stars.setAttribute("aria-label", r.rating + " / 5");
+        card.querySelector(".review-text").textContent = pick(r, "text");
+        const prod = pick(r, "product");
+        const prodEl = card.querySelector(".review-product");
+        if (prod) { prodEl.textContent = prod; } else { prodEl.remove(); }
+        card.querySelector("time").textContent = fmtReviewDate(r.date);
+        grid.appendChild(card);
+    });
+
+    moreBtn.textContent = t("rvMore");
+    moreBtn.hidden = reviewsShown >= total;
+}
+
+function initReviews() {
+    const grid = document.getElementById("reviewsGrid");
+    if (!grid) return;
+    renderReviews();
+
+    const moreBtn = document.getElementById("reviewsMore");
+    moreBtn.addEventListener("click", () => { reviewsShown += 6; renderReviews(); });
+
+    const form = document.getElementById("reviewForm");
+    const stars = Array.from(form.querySelectorAll(".rf-star"));
+    const hint = document.getElementById("rvHint");
+    let value = 0;
+    const paint = (n) => stars.forEach((b, i) => b.classList.toggle("on", i < n));
+    stars.forEach((b, i) => {
+        b.addEventListener("click", () => { value = i + 1; paint(value); hint.hidden = true; });
+        b.addEventListener("mouseenter", () => paint(i + 1));
+    });
+    form.querySelector(".rf-stars").addEventListener("mouseleave", () => paint(value));
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (!value) { hint.hidden = false; return; }
+        const name = document.getElementById("rvName").value.trim();
+        const product = document.getElementById("rvProduct").value.trim();
+        const text = document.getElementById("rvText").value.trim();
+        if (!name || !text) return;
+        const lines = [t("rvMsgHead"), "", t("rvMsgName") + ": " + name];
+        if (product) lines.push(t("rvMsgProduct") + ": " + product);
+        lines.push(t("rvMsgRating") + ": " + value + "/5", t("rvMsgComment") + ": " + text);
+        window.open(whatsappLink(lines.join("\n")), "_blank", "noopener");
+        showToast(t("rvSent"));
+        form.reset();
+        value = 0;
+        paint(0);
+    });
 }
