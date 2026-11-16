@@ -36,6 +36,7 @@
             <a href="index.html" class="active" data-i18n="navHome">الرئيسية</a>
             <a href="#featured-products" data-i18n="navShop">المتجر</a>
             <a href="#about" data-i18n="navAbout">قصتنا</a>
+            <a href="#reviews" data-i18n="navReviews">آراء العملاء</a>
             <a href="#contact" data-i18n="navContact">تواصل معنا</a>
         </nav>
 
@@ -118,6 +119,58 @@
                 <span><i class="fa-solid fa-check"></i> <span data-i18n="ap1">بدون مواد حافظة</span></span>
                 <span><i class="fa-solid fa-check"></i> <span data-i18n="ap2">طعم أصلي</span></span>
                 <span><i class="fa-solid fa-check"></i> <span data-i18n="ap3">جودة ثابتة</span></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- آراء العملاء -->
+    <section class="reviews" id="reviews">
+        <div class="reviews-inner">
+            <div class="reviews-head">
+                <span class="eyebrow" data-i18n="rvEyebrow">آراء عملائنا</span>
+                <h2 class="section-title" data-i18n="rvTitle">ثقتكم هي أغلى ما نملك</h2>
+                <p class="section-subtitle" data-i18n="rvSub">تجارب عملائنا مع منتجاتنا</p>
+            </div>
+
+            <div class="reviews-summary" id="reviewsSummary" hidden></div>
+            <div class="reviews-grid" id="reviewsGrid" aria-live="polite"></div>
+            <div class="reviews-more">
+                <button type="button" class="btn btn-outline" id="reviewsMore" data-i18n="rvMore" hidden>عرض المزيد من التقييمات</button>
+            </div>
+
+            <div class="review-form-wrap">
+                <div class="rf-intro">
+                    <h3 data-i18n="rvFormTitle">شاركنا تجربتك</h3>
+                    <p data-i18n="rvFormSub">رأيك يهمنا ويساعد غيرك يختار.</p>
+                </div>
+                <form class="review-form" id="reviewForm">
+                    <div class="rf-field">
+                        <label for="rvName" data-i18n="rvName">الاسم</label>
+                        <input type="text" id="rvName" maxlength="60" required data-i18n-ph="rvNamePh" placeholder="اسمك">
+                    </div>
+                    <div class="rf-field">
+                        <label for="rvProduct" data-i18n="rvProduct">المنتج (اختياري)</label>
+                        <input type="text" id="rvProduct" maxlength="80" data-i18n-ph="rvProductPh" placeholder="مثال: مانجو مجففة">
+                    </div>
+                    <div class="rf-field rf-full">
+                        <label data-i18n="rvRate">تقييمك</label>
+                        <div class="rf-stars" role="group" data-i18n-aria="rvRate" aria-label="تقييمك">
+                            <button type="button" class="rf-star" aria-label="1 / 5">★</button>
+                            <button type="button" class="rf-star" aria-label="2 / 5">★</button>
+                            <button type="button" class="rf-star" aria-label="3 / 5">★</button>
+                            <button type="button" class="rf-star" aria-label="4 / 5">★</button>
+                            <button type="button" class="rf-star" aria-label="5 / 5">★</button>
+                        </div>
+                        <small class="rf-hint" id="rvHint" hidden data-i18n="rvRateNeed">من فضلك اختار عدد النجوم</small>
+                    </div>
+                    <div class="rf-field rf-full">
+                        <label for="rvText" data-i18n="rvComment">تعليقك</label>
+                        <textarea id="rvText" rows="4" maxlength="600" required data-i18n-ph="rvCommentPh" placeholder="احكي لنا عن تجربتك..."></textarea>
+                    </div>
+                    <div class="rf-full rf-actions">
+                        <button type="submit" class="btn btn-gold"><i class="fa-brands fa-whatsapp"></i> <span data-i18n="rvSend">إرسال التقييم</span></button>
+                    </div>
+                </form>
             </div>
         </div>
     </section>
