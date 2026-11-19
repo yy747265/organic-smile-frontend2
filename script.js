@@ -14,6 +14,7 @@ const SETTINGS_CACHE = "os_site_settings";
    { name: "اسم العميل", city: "المدينة", product: "اسم المنتج", rating: 5, text: "نص التعليق", date: "2026-11-01" },
    الإجباري: name و rating و text. والباقي اختياري.
    لو عاوز نسخة إنجليزي ضيف: text_en و product_en.
+   لتثبيت تعليق في أول القسم بشكل مميز ضيف فيه: pinned: true
    ========================================================= */
 const REVIEWS = [
 ];
@@ -64,6 +65,7 @@ const I18N = {
   "rvEmptyTitle": "كن أول من يشاركنا رأيه",
   "rvEmptyP": "لسه مفيش تقييمات منشورة. جرّب منتجاتنا وشاركنا تجربتك.",
   "rvMore": "عرض المزيد من التقييمات",
+  "rvPinned": "تعليق مثبّت",
   "rvFormTitle": "شاركنا تجربتك",
   "rvFormSub": "رأيك يهمنا ويساعد غيرك يختار. هيوصلنا تقييمك على واتساب، وبعد مراجعته بيتم نشره.",
   "rvName": "الاسم",
@@ -184,6 +186,7 @@ const I18N = {
   "rvEmptyTitle": "Be the first to share your opinion",
   "rvEmptyP": "No reviews published yet. Try our products and share your experience.",
   "rvMore": "Show more reviews",
+  "rvPinned": "Pinned review",
   "rvFormTitle": "Share Your Experience",
   "rvFormSub": "Your opinion matters and helps others choose. Your review is sent to us on WhatsApp and published after we review it.",
   "rvName": "Name",
@@ -1217,9 +1220,11 @@ function reviewStars(n) {
 }
 
 function validReviews() {
-    return (Array.isArray(REVIEWS) ? REVIEWS : []).filter(
+    const list = (Array.isArray(REVIEWS) ? REVIEWS : []).filter(
         (r) => r && r.name && r.text && Number(r.rating) >= 1 && Number(r.rating) <= 5
     );
+    // التعليقات المثبّتة أولًا، وباقي الترتيب زي ما هو
+    return list.filter((r) => r.pinned).concat(list.filter((r) => !r.pinned));
 }
 
 function fmtReviewDate(d) {
@@ -1269,8 +1274,9 @@ function renderReviews() {
 
     list.slice(0, reviewsShown).forEach((r) => {
         const card = document.createElement("article");
-        card.className = "review-card";
+        card.className = "review-card" + (r.pinned ? " pinned" : "");
         card.innerHTML =
+            (r.pinned ? '<div class="review-pin"><i class="fa-solid fa-thumbtack"></i> ' + t("rvPinned") + "</div>" : "") +
             '<div class="review-top"><div class="review-avatar"></div>' +
             '<div class="review-who"><strong></strong><span></span></div></div>' +
             '<div class="review-stars" role="img"></div>' +
