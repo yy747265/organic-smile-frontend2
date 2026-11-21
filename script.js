@@ -19,6 +19,12 @@ const SETTINGS_CACHE = "os_site_settings";
 const REVIEWS = [
 ];
 
+/* التقييمات المحفوظة على السيرفر (بتتراجع وتتنشر من لوحة التحكم ← تاب التقييمات).
+   لو مسحت الرابط الفورم هيبعت التقييم على واتساب بدل ما يتحفظ. */
+let REVIEWS_API = API_URL.replace("/api/products", "/api/reviews");
+let REMOTE_REVIEWS = [];
+const REVIEWS_CACHE = "os_reviews_cache";
+
 const I18N = {
  "ar": {
   "title": "ORGANIC Smile | فواكه مجففة وبودر طبيعي فاخر",
@@ -66,8 +72,11 @@ const I18N = {
   "rvEmptyP": "لسه مفيش تقييمات منشورة. جرّب منتجاتنا وشاركنا تجربتك.",
   "rvMore": "عرض المزيد من التقييمات",
   "rvPinned": "تعليق مثبّت",
+  "rvSentPending": "شكرًا لك! تقييمك وصلنا وهيظهر بعد المراجعة",
+  "rvFail": "تعذر إرسال التقييم، حاول مرة أخرى",
+  "rvWait": "استنى شوية قبل ما تبعت تقييم تاني",
   "rvFormTitle": "شاركنا تجربتك",
-  "rvFormSub": "رأيك يهمنا ويساعد غيرك يختار. هيوصلنا تقييمك على واتساب، وبعد مراجعته بيتم نشره.",
+  "rvFormSub": "رأيك يهمنا ويساعد غيرك يختار. بنراجع كل التقييمات قبل نشرها.",
   "rvName": "الاسم",
   "rvNamePh": "اسمك",
   "rvProduct": "المنتج (اختياري)",
@@ -187,8 +196,11 @@ const I18N = {
   "rvEmptyP": "No reviews published yet. Try our products and share your experience.",
   "rvMore": "Show more reviews",
   "rvPinned": "Pinned review",
+  "rvSentPending": "Thank you! We received your review and it will appear after review",
+  "rvFail": "Couldn't send your review, please try again",
+  "rvWait": "Please wait a bit before sending another review",
   "rvFormTitle": "Share Your Experience",
-  "rvFormSub": "Your opinion matters and helps others choose. Your review is sent to us on WhatsApp and published after we review it.",
+  "rvFormSub": "Your opinion matters and helps others choose. We review every submission before publishing.",
   "rvName": "Name",
   "rvNamePh": "Your name",
   "rvProduct": "Product (optional)",
@@ -559,7 +571,7 @@ function closeCart() {
     if (btn) btn.setAttribute("aria-expanded", "false");
 }
 
-function showToast(msg) {
+function showToast(msg, ms) {
     let el = document.getElementById("toast");
     if (!el) {
         el = document.createElement("div");
@@ -571,7 +583,7 @@ function showToast(msg) {
     el.textContent = msg;
     el.classList.add("show");
     clearTimeout(showToast.timer);
-    showToast.timer = setTimeout(() => el.classList.remove("show"), 1800);
+    showToast.timer = setTimeout(() => el.classList.remove("show"), ms || 1800);
 }
 
 function buildCartMessage() {
@@ -1220,7 +1232,7 @@ function reviewStars(n) {
 }
 
 function validReviews() {
-    const list = (Array.isArray(REVIEWS) ? REVIEWS : []).filter(
+    const list = (Array.isArray(REVIEWS) ? REVIEWS : []).concat(REMOTE_REVIEWS).filter(
         (r) => r && r.name && r.text && Number(r.rating) >= 1 && Number(r.rating) <= 5
     );
     // التعليقات المثبّتة أولًا، وباقي الترتيب زي ما هو
@@ -1301,10 +1313,32 @@ function renderReviews() {
     moreBtn.hidden = reviewsShown >= total;
 }
 
+async function loadRemoteReviews() {
+    if (!REVIEWS_API) return;
+    try {
+        const cached = JSON.parse(localStorage.getItem(REVIEWS_CACHE) || "[]");
+        if (Array.isArray(cached) && cached.length) { REMOTE_REVIEWS = cached; renderReviews(); }
+    } catch (e) {}
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 12000);
+    try {
+        const res = await fetch(REVIEWS_API, { signal: controller.signal });
+        if (!res.ok) throw new Error("bad status");
+        const data = await res.json();
+        if (Array.isArray(data)) {
+            REMOTE_REVIEWS = data;
+            try { localStorage.setItem(REVIEWS_CACHE, JSON.stringify(data)); } catch (e) {}
+            renderReviews();
+        }
+    } catch (e) { /* نكمل بالمحفوظ */ }
+    clearTimeout(timer);
+}
+
 function initReviews() {
     const grid = document.getElementById("reviewsGrid");
     if (!grid) return;
     renderReviews();
+    loadRemoteReviews();
 
     const moreBtn = document.getElementById("reviewsMore");
     moreBtn.addEventListener("click", () => { reviewsShown += 6; renderReviews(); });
@@ -1320,20 +1354,45 @@ function initReviews() {
     });
     form.querySelector(".rf-stars").addEventListener("mouseleave", () => paint(value));
 
-    form.addEventListener("submit", (e) => {
+    form.addEventListener("submit", async (e) => {
         e.preventDefault();
         if (!value) { hint.hidden = false; return; }
         const name = document.getElementById("rvName").value.trim();
         const product = document.getElementById("rvProduct").value.trim();
         const text = document.getElementById("rvText").value.trim();
         if (!name || !text) return;
-        const lines = [t("rvMsgHead"), "", t("rvMsgName") + ": " + name];
-        if (product) lines.push(t("rvMsgProduct") + ": " + product);
-        lines.push(t("rvMsgRating") + ": " + value + "/5", t("rvMsgComment") + ": " + text);
-        window.open(whatsappLink(lines.join("\n")), "_blank", "noopener");
-        showToast(t("rvSent"));
-        form.reset();
-        value = 0;
-        paint(0);
+        const website = document.getElementById("rvWebsite").value; // فخ للبوتات
+
+        // من غير رابط السيرفر: نبعت التقييم على واتساب
+        if (!REVIEWS_API) {
+            const lines = [t("rvMsgHead"), "", t("rvMsgName") + ": " + name];
+            if (product) lines.push(t("rvMsgProduct") + ": " + product);
+            lines.push(t("rvMsgRating") + ": " + value + "/5", t("rvMsgComment") + ": " + text);
+            window.open(whatsappLink(lines.join("\n")), "_blank", "noopener");
+            showToast(t("rvSent"));
+            form.reset(); value = 0; paint(0);
+            return;
+        }
+
+        const btn = form.querySelector('button[type="submit"]');
+        btn.disabled = true;
+        try {
+            const res = await fetch(REVIEWS_API, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name: name, product: product, rating: value, text: text, website: website })
+            });
+            if (res.status === 429) {
+                showToast(t("rvWait"), 3500);
+            } else if (!res.ok) {
+                showToast(t("rvFail"), 3500);
+            } else {
+                showToast(t("rvSentPending"), 4500);
+                form.reset(); value = 0; paint(0);
+            }
+        } catch (err) {
+            showToast(t("rvFail"), 3500);
+        }
+        btn.disabled = false;
     });
 }
