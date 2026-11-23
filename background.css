@@ -1,12 +1,21 @@
 /* =========================================================
-   ORGANIC Smile — الخلفية والألوان (باترن فواكه واضح وناعم)
+   ORGANIC Smile — خلفية بدون أخضر مع الحفاظ على ألوان اللوجو
    ========================================================= */
+
+:root {
+    --primary: #C81D25;
+    --primary-light: #E02A33;
+    --primary-dark: #8F1218;
+    --surface-green: #F3ECE0;
+    --line: rgba(143, 18, 24, 0.16);
+    --shadow-primary: 0 10px 30px rgba(200, 29, 37, 0.14);
+}
 
 body {
     background-color: var(--bg);
     background-image:
-        linear-gradient(rgba(251, 248, 241, 0.32), rgba(251, 248, 241, 0.32)),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='500' viewBox='0 0 500 500'%3E%3Cg opacity='0.78'%3E%3C!-- أوراق ونباتات خضراء --%3E%3Cg fill='%235D8F6B' opacity='0.65'%3E%3Cellipse cx='65' cy='75' rx='26' ry='10' transform='rotate(-28 65 75)'/%3E%3Cellipse cx='98' cy='62' rx='22' ry='8' transform='rotate(20 98 62)'/%3E%3Cellipse cx='420' cy='105' rx='28' ry='10' transform='rotate(32 420 105)'/%3E%3Cellipse cx='255' cy='245' rx='26' ry='9' transform='rotate(-18 255 245)'/%3E%3Cellipse cx='125' cy='415' rx='28' ry='10' transform='rotate(24 125 415)'/%3E%3Cellipse cx='400' cy='400' rx='26' ry='10' transform='rotate(-35 400 400)'/%3E%3C/g%3E%3C!-- فراولة / خوخ مائي --%3E%3Cg transform='translate(55 95) scale(1.25)'%3E%3Cpath d='M22 6 C36 6 44 18 38 34 C33 47 22 54 22 54 C22 54 11 47 6 34 C0 18 8 6 22 6 Z' fill='%23EE8B7A'/%3E%3Cpath d='M12 7 L22 13 L32 7 L26 2 L16 2 Z' fill='%234A7C59'/%3E%3Ccircle cx='16' cy='21' r='1.3' fill='%23FFF8EB'/%3E%3Ccircle cx='26' cy='20' r='1.3' fill='%23FFF8EB'/%3E%3Ccircle cx='21' cy='29' r='1.3' fill='%23FFF8EB'/%3E%3Ccircle cx='15' cy='36' r='1.3' fill='%23FFF8EB'/%3E%3Ccircle cx='27' cy='35' r='1.3' fill='%23FFF8EB'/%3E%3C/g%3E%3C!-- مانجو --%3E%3Cg transform='translate(170 50) rotate(-18) scale(1.25)'%3E%3Cpath d='M8 26 C4 10 22 -2 40 6 C56 13 58 34 44 44 C30 53 12 42 8 26 Z' fill='%23F4B942'/%3E%3Cpath d='M12 24 C16 14 30 9 42 13 C50 16 52 27 45 35 Z' fill='%23E58F4E' opacity='0.65'/%3E%3C/g%3E%3C!-- شريحة كيوي --%3E%3Cg transform='translate(295 65) scale(1.25)'%3E%3Ccircle cx='24' cy='24' r='22' fill='%237AA868'/%3E%3Ccircle cx='24' cy='24' r='17' fill='%23BFE09E'/%3E%3Cellipse cx='24' cy='24' rx='8' ry='6' fill='%23F7FAF2'/%3E%3Ccircle cx='24' cy='11' r='1.4' fill='%233D352E'/%3E%3Ccircle cx='35' cy='16' r='1.4' fill='%233D352E'/%3E%3Ccircle cx='37' cy='28' r='1.4' fill='%233D352E'/%3E%3Ccircle cx='29' cy='37' r='1.4' fill='%233D352E'/%3E%3Ccircle cx='17' cy='36' r='1.4' fill='%233D352E'/%3E%3Ccircle cx='11' cy='25' r='1.4' fill='%233D352E'/%3E%3C/g%3E%3C!-- أناناس --%3E%3Cg transform='translate(405 135) rotate(12) scale(1.25)'%3E%3Cpath d='M22 0 L15 16 L22 13 L29 16 Z' fill='%234A7C59'/%3E%3Cpath d='M11 4 L9 18 L17 15 Z' fill='%236B9E78'/%3E%3Cpath d='M33 4 L27 15 L35 18 Z' fill='%236B9E78'/%3E%3Cellipse cx='22' cy='35' rx='16' ry='21' fill='%23F0B654'/%3E%3Cpath d='M10 25 L34 45 M34 25 L10 45' stroke='%23C98A32' stroke-width='1.5' opacity='0.7'/%3E%3C/g%3E%3C!-- برتقال --%3E%3Cg transform='translate(105 235) scale(1.25)'%3E%3Ccircle cx='24' cy='24' r='22' fill='%23EC9A3C'/%3E%3Ccircle cx='24' cy='24' r='18' fill='%23F6C26B'/%3E%3Cpath d='M24 24 L24 8 M24 24 L38 15 M24 24 L38 33 M24 24 L24 40 M24 24 L10 33 M24 24 L10 15' stroke='%23FBF8F1' stroke-width='2.2'/%3E%3C/g%3E%3C!-- عنقود عنب --%3E%3Cg transform='translate(325 225) scale(1.25)'%3E%3Ccircle cx='16' cy='14' r='7' fill='%23A58FA8'/%3E%3Ccircle cx='28' cy='14' r='7' fill='%23BFA9C2'/%3E%3Ccircle cx='22' cy='23' r='7' fill='%23A58FA8'/%3E%3Ccircle cx='34' cy='23' r='7' fill='%238E7891'/%3E%3Ccircle cx='14' cy='24' r='7' fill='%23BFA9C2'/%3E%3Ccircle cx='20' cy='33' r='7' fill='%238E7891'/%3E%3Ccircle cx='30' cy='33' r='7' fill='%23A58FA8'/%3E%3C/g%3E%3C!-- خوخ --%3E%3Cg transform='translate(205 360) scale(1.25)'%3E%3Ccircle cx='24' cy='25' r='21' fill='%23F09D6E'/%3E%3Cpath d='M24 6 C14 6 6 15 6 26 C6 37 14 45 24 45' fill='none' stroke='%23D97B48' stroke-width='2' opacity='0.7'/%3E%3Cpath d='M24 7 C26 2 33 2 35 7' fill='none' stroke='%234A7C59' stroke-width='2.5' stroke-linecap='round'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        linear-gradient(rgba(251, 248, 241, 0.34), rgba(251, 248, 241, 0.34)),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='500' viewBox='0 0 500 500'%3E%3Cg opacity='0.78'%3E%3C!-- أغصان وأوراق ذهبية/كاكاوية ناعمة بدلاً من الأخضر --%3E%3Cg fill='%23C49A61' opacity='0.58'%3E%3Cellipse cx='65' cy='75' rx='26' ry='10' transform='rotate(-28 65 75)'/%3E%3Cellipse cx='98' cy='62' rx='22' ry='8' transform='rotate(20 98 62)'/%3E%3Cellipse cx='420' cy='105' rx='28' ry='10' transform='rotate(32 420 105)'/%3E%3Cellipse cx='255' cy='245' rx='26' ry='9' transform='rotate(-18 255 245)'/%3E%3Cellipse cx='125' cy='415' rx='28' ry='10' transform='rotate(24 125 415)'/%3E%3Cellipse cx='400' cy='400' rx='26' ry='10' transform='rotate(-35 400 400)'/%3E%3C/g%3E%3C!-- فاكهة مشمشية/خوخية مائية --%3E%3Cg transform='translate(55 95) scale(1.25)'%3E%3Cpath d='M22 6 C36 6 44 18 38 34 C33 47 22 54 22 54 C22 54 11 47 6 34 C0 18 8 6 22 6 Z' fill='%23F39C6B'/%3E%3Cpath d='M12 7 L22 13 L32 7 L26 2 L16 2 Z' fill='%23C49A61'/%3E%3Ccircle cx='16' cy='21' r='1.3' fill='%23FFF8EB'/%3E%3Ccircle cx='26' cy='20' r='1.3' fill='%23FFF8EB'/%3E%3Ccircle cx='21' cy='29' r='1.3' fill='%23FFF8EB'/%3E%3Ccircle cx='15' cy='36' r='1.3' fill='%23FFF8EB'/%3E%3Ccircle cx='27' cy='35' r='1.3' fill='%23FFF8EB'/%3E%3C/g%3E%3C!-- مانجو --%3E%3Cg transform='translate(170 50) rotate(-18) scale(1.25)'%3E%3Cpath d='M8 26 C4 10 22 -2 40 6 C56 13 58 34 44 44 C30 53 12 42 8 26 Z' fill='%23F4B942'/%3E%3Cpath d='M12 24 C16 14 30 9 42 13 C50 16 52 27 45 35 Z' fill='%23E58F4E' opacity='0.65'/%3E%3C/g%3E%3C!-- شريحة فاكهة ذهبية/كريمية --%3E%3Cg transform='translate(295 65) scale(1.25)'%3E%3Ccircle cx='24' cy='24' r='22' fill='%23D6A868'/%3E%3Ccircle cx='24' cy='24' r='17' fill='%23F3D6A4'/%3E%3Cellipse cx='24' cy='24' rx='8' ry='6' fill='%23FBF8F1'/%3E%3Ccircle cx='24' cy='11' r='1.3' fill='%236E5847'/%3E%3Ccircle cx='35' cy='16' r='1.3' fill='%236E5847'/%3E%3Ccircle cx='37' cy='28' r='1.3' fill='%236E5847'/%3E%3Ccircle cx='29' cy='37' r='1.3' fill='%236E5847'/%3E%3Ccircle cx='17' cy='36' r='1.3' fill='%236E5847'/%3E%3Ccircle cx='11' cy='25' r='1.3' fill='%236E5847'/%3E%3C/g%3E%3C!-- أناناس --%3E%3Cg transform='translate(405 135) rotate(12) scale(1.25)'%3E%3Cpath d='M22 0 L15 16 L22 13 L29 16 Z' fill='%23B8894E'/%3E%3Cpath d='M11 4 L9 18 L17 15 Z' fill='%23CFA266'/%3E%3Cpath d='M33 4 L27 15 L35 18 Z' fill='%23CFA266'/%3E%3Cellipse cx='22' cy='35' rx='16' ry='21' fill='%23F0B654'/%3E%3Cpath d='M10 25 L34 45 M34 25 L10 45' stroke='%23C98A32' stroke-width='1.5' opacity='0.7'/%3E%3C/g%3E%3C!-- برتقال --%3E%3Cg transform='translate(105 235) scale(1.25)'%3E%3Ccircle cx='24' cy='24' r='22' fill='%23EC9A3C'/%3E%3Ccircle cx='24' cy='24' r='18' fill='%23F6C26B'/%3E%3Cpath d='M24 24 L24 8 M24 24 L38 15 M24 24 L38 33 M24 24 L24 40 M24 24 L10 33 M24 24 L10 15' stroke='%23FBF8F1' stroke-width='2.2'/%3E%3C/g%3E%3C!-- عنقود عنب هادئ --%3E%3Cg transform='translate(325 225) scale(1.25)'%3E%3Ccircle cx='16' cy='14' r='7' fill='%23B59AA6'/%3E%3Ccircle cx='28' cy='14' r='7' fill='%23CBB4BE'/%3E%3Ccircle cx='22' cy='23' r='7' fill='%23B59AA6'/%3E%3Ccircle cx='34' cy='23' r='7' fill='%239D838E'/%3E%3Ccircle cx='14' cy='24' r='7' fill='%23CBB4BE'/%3E%3Ccircle cx='20' cy='33' r='7' fill='%239D838E'/%3E%3Ccircle cx='30' cy='33' r='7' fill='%23B59AA6'/%3E%3C/g%3E%3C!-- خوخ --%3E%3Cg transform='translate(205 360) scale(1.25)'%3E%3Ccircle cx='24' cy='25' r='21' fill='%23F09D6E'/%3E%3Cpath d='M24 6 C14 6 6 15 6 26 C6 37 14 45 24 45' fill='none' stroke='%23D97B48' stroke-width='2' opacity='0.7'/%3E%3Cpath d='M24 7 C26 2 33 2 35 7' fill='none' stroke='%23C49A61' stroke-width='2.5' stroke-linecap='round'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     background-repeat: no-repeat, repeat;
     background-size: 100% 100%, 420px 420px;
     background-attachment: scroll, scroll;
@@ -20,7 +29,7 @@ body {
 .ads-item i { color: var(--star) !important; }
 
 .navbar {
-    background: rgba(251, 248, 241, 0.90) !important;
+    background: rgba(251, 248, 241, 0.92) !important;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--line);
@@ -31,7 +40,7 @@ body {
 }
 
 .features-strip {
-    background: rgba(255, 255, 255, 0.92);
+    background: rgba(255, 255, 255, 0.94);
 }
 
 .featured-products,
@@ -41,14 +50,21 @@ body {
 }
 
 .about {
-    background: linear-gradient(180deg, rgba(237, 243, 232, 0.92), rgba(237, 243, 232, 0.80));
+    background: linear-gradient(180deg, rgba(243, 236, 224, 0.94), rgba(251, 248, 241, 0.88));
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
 }
 
 .main-footer {
-    background: var(--surface-green);
+    background: #EFE7D8;
     border-top: 2px solid var(--primary);
+}
+
+/* الحفاظ على ألوان اللوجو كما هي */
+.logo-img,
+.brand-circle-logo {
+    filter: none !important;
+    mix-blend-mode: normal !important;
 }
 
 @media (max-width: 768px) {
