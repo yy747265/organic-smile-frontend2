@@ -320,8 +320,8 @@ const PLACEHOLDER_IMG =
     "data:image/svg+xml;utf8," +
     encodeURIComponent(
         '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400">' +
-        '<rect width="100%" height="100%" fill="#1b1b18"/>' +
-        '<text x="50%" y="50%" fill="#C9A961" font-family="serif" font-size="26" text-anchor="middle">ORGANIC Smile</text>' +
+        '<rect width="100%" height="100%" fill="#EDF3E8"/>' +
+        '<text x="50%" y="50%" fill="#2F6B3F" font-family="serif" font-size="26" text-anchor="middle">ORGANIC Smile</text>' +
         "</svg>"
     );
 
@@ -840,7 +840,7 @@ function setupCustomCursor() {
         if (!cursor) return;
         if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.closest('button') || e.target.closest('a')) {
             cursor.style.transform = 'translate(-50%, -50%) scale(1.4)';
-            cursor.style.backgroundColor = 'rgba(168, 136, 74, 0.15)';
+            cursor.style.backgroundColor = 'rgba(47, 107, 63, 0.12)';
         }
     });
 
@@ -849,7 +849,7 @@ function setupCustomCursor() {
         if (!cursor) return;
         if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.closest('button') || e.target.closest('a')) {
             cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-            cursor.style.backgroundColor = 'rgba(168, 136, 74, 0.05)';
+            cursor.style.backgroundColor = 'rgba(47, 107, 63, 0.04)';
         }
     });
 }
