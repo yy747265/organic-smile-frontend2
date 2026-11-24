@@ -1016,3 +1016,4 @@ html[dir="rtl"] .cart-drawer:not(.open) { transform: translateX(-105%); }
 }
 .rf-hp { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); opacity: 0; pointer-events: none; }
 .rf-actions .btn:disabled { opacity: 0.6; cursor: wait; transform: none; }
+.hero-ring { display: none !important; }
