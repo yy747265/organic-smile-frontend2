@@ -3,60 +3,59 @@
    ========================================================= */
 
 :root {
-    --bg: #FFF9FA;               /* بينك فاتح جداً مائل للعاجي */
+    --bg: #FFFCF7;
     --surface: #FFFFFF;
-    --surface-2: #FDF0F3;        /* بينك كريمي ناعم للكروت الثانوية */
-    --surface-warm: #FCF3F5;
-    --line: rgba(180, 35, 45, 0.16);
-    --primary: #C81D25;          /* أحمر براند دافئ */
-    --primary-light: #E02A33;
-    --primary-dark: #8F1218;
-    --accent-gold: #D4A349;      /* ذهبي دافئ */
-    --star: #E6A93C;             /* ذهبي مشمشي للنجوم */
-    --shadow-primary: 0 10px 30px rgba(200, 29, 37, 0.13);
+    --surface-2: #FBF5EA;
+    --surface-warm: #FDF8EF;
+    --line: rgba(184, 146, 74, 0.22);
+    --primary: #B8323C;
+    --primary-light: #D0535C;
+    --primary-dark: #7F1F29;
+    --accent-gold: #C9A55C;
+    --star: #D9A93F;
+    --shadow-primary: 0 12px 32px rgba(184, 50, 60, 0.12);
 }
 
-/* إزالة الفواكه نهائياً والاعتماد على تدرج ناعم بين البينك الفاتح خالص والذهبي والأحمر الخفيف */
+/* خلفية هادئة: عاجي + لمسة شمبانيا + ورد باهت جداً */
 body {
     background-color: var(--bg);
     background-image:
-        radial-gradient(circle at 82% 18%, rgba(212, 163, 73, 0.14), transparent 45%),
-        radial-gradient(circle at 18% 12%, rgba(248, 187, 208, 0.26), transparent 50%),
-        radial-gradient(circle at 12% 88%, rgba(200, 29, 37, 0.08), transparent 45%),
-        linear-gradient(180deg, #FFF9FA 0%, #FDF2F5 55%, #FFF8F6 100%);
+        radial-gradient(circle at 85% 12%, rgba(201, 165, 92, 0.14), transparent 45%),
+        radial-gradient(circle at 12% 18%, rgba(246, 222, 214, 0.40), transparent 50%),
+        radial-gradient(circle at 15% 90%, rgba(201, 165, 92, 0.09), transparent 45%),
+        linear-gradient(180deg, #FFFDF9 0%, #FCF7EE 55%, #FFFBF5 100%);
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-attachment: fixed;
 }
 
-/* الشريط العلوي */
+/* الشريط العلوي فاتح وناعم */
 .topbar {
-    background: var(--primary-dark) !important;
-    border-bottom: 1px solid rgba(212, 163, 73, 0.35) !important;
+    background: linear-gradient(90deg, #FBF3E2, #FFF9EC, #FBF3E2) !important;
+    border-bottom: 1px solid rgba(201, 165, 92, 0.4) !important;
 }
-.ads-item { color: #FFF9FA !important; }
+.ads-item { color: #5A4A3E !important; }
 .ads-item i { color: var(--accent-gold) !important; }
 
-/* الهيدر */
 .navbar {
-    background: rgba(255, 249, 250, 0.92) !important;
+    background: rgba(255, 252, 247, 0.92) !important;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--line);
+    box-shadow: 0 6px 24px rgba(150, 115, 50, 0.05);
 }
 
-/* الأقسام */
 .hero {
     background:
-        radial-gradient(circle at 85% 24%, rgba(212, 163, 73, 0.16), transparent 46%),
-        radial-gradient(circle at 12% 85%, rgba(244, 143, 177, 0.18), transparent 48%),
+        radial-gradient(circle at 85% 30%, rgba(201, 165, 92, 0.16), transparent 46%),
+        radial-gradient(circle at 10% 85%, rgba(246, 222, 214, 0.45), transparent 48%),
         transparent !important;
 }
 
 .features-strip {
-    background: rgba(255, 255, 255, 0.88);
-    border-top: 1px solid rgba(212, 163, 73, 0.28);
-    border-bottom: 1px solid rgba(212, 163, 73, 0.28);
+    background: rgba(255, 255, 255, 0.85);
+    border-top: 1px solid rgba(201, 165, 92, 0.3);
+    border-bottom: 1px solid rgba(201, 165, 92, 0.3);
 }
 
 .featured-products,
@@ -66,17 +65,17 @@ body {
 }
 
 .about {
-    background: linear-gradient(180deg, rgba(253, 240, 243, 0.9), rgba(255, 249, 250, 0.85));
-    border-top: 1px solid rgba(212, 163, 73, 0.25);
-    border-bottom: 1px solid rgba(212, 163, 73, 0.25);
+    background: linear-gradient(180deg, rgba(251, 245, 234, 0.95), rgba(255, 252, 247, 0.85));
+    border-top: 1px solid rgba(201, 165, 92, 0.28);
+    border-bottom: 1px solid rgba(201, 165, 92, 0.28);
 }
 
 .main-footer {
-    background: #FBECEF;
+    background: #FBF5EA;
     border-top: 2px solid var(--accent-gold);
 }
 
-/* ضمان بقاء ألوان اللوجو كما هي بدون أي تعديل */
+/* ضمان بقاء ألوان اللوجو والصورة كما هي */
 .logo-img,
 .brand-circle-logo,
 .hero-center-logo {
